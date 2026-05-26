@@ -17,15 +17,14 @@ const leaderboard = [
   { handle: "mason", tier: "Strategist", roi: 172, reliability: 91, plays: 15, score: 87 },
   { handle: "priya", tier: "Operator", roi: 143, reliability: 88, plays: 9, score: 81 },
   { handle: "lewis", tier: "Scout", roi: 127, reliability: 85, plays: 6, score: 76 },
-  { handle: "rory", tier: "Operator", roi: 148, reliability: 79, plays: 11, score: 74 },
 ];
 
 const tiers = [
-  { name: "Scout", alloc: "€100", color: "#6b7280", desc: "Your first play. Prove your instincts.", perks: ["Base profit split", "Community access"] },
-  { name: "Operator", alloc: "€500", color: "#10b981", desc: "Consistent. Creative. Reliable.", perks: ["Improved split", "Priority review", "Play analytics"] },
-  { name: "Strategist", alloc: "€2,500", color: "#f59e0b", desc: "You have a system. We fund it.", perks: ["Top-tier split", "Private channels", "Exclusive deals"] },
-  { name: "Partner", alloc: "€10,000", color: "#8b5cf6", desc: "Proven track record.", perks: ["Custom terms", "Direct line to team", "Co-investment"] },
-  { name: "Syndicate", alloc: "Custom", color: "#ef4444", desc: "You are the strategy.", perks: ["Full negotiation", "Fund-level access", "Joint ventures"] },
+  { name: "Scout", alloc: "€100", color: "#6b7280", desc: "Your first play." },
+  { name: "Operator", alloc: "€500", color: "#10b981", desc: "Consistent. Creative." },
+  { name: "Strategist", alloc: "€2,500", color: "#f59e0b", desc: "You have a system." },
+  { name: "Partner", alloc: "€10,000", color: "#8b5cf6", desc: "Proven track record." },
+  { name: "Syndicate", alloc: "Custom", color: "#ef4444", desc: "You are the strategy." },
 ];
 
 const categoryColors: Record<string, string> = { arbitrage: "#10b981", digital: "#6366f1", service: "#f59e0b" };
@@ -52,7 +51,7 @@ function Counter({ end, prefix = "", suffix = "" }: { end: number; prefix?: stri
 }
 
 export default function Home() {
-  const [activeSection, setActiveSection] = useState("home");
+  const [menuOpen, setMenuOpen] = useState(false);
   const [formStep, setFormStep] = useState(0);
   const [formData, setFormData] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -61,7 +60,7 @@ export default function Home() {
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    setActiveSection(id);
+    setMenuOpen(false);
   };
 
   const handleFormChange = (key: string, val: string) => setFormData(p => ({ ...p, [key]: val }));
@@ -107,81 +106,119 @@ export default function Home() {
         @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #111; } ::-webkit-scrollbar-thumb { background: #333; }
-        .nav-link { color: #666; font-size: 13px; letter-spacing: 0.05em; cursor: pointer; transition: color 0.2s; text-decoration: none; font-family: 'DM Sans', sans-serif; }
-        .nav-link:hover, .nav-link.active { color: #e8e6e0; }
-        .btn-primary { background: #e8e6e0; color: #0a0a0a; border: none; padding: 12px 28px; font-size: 13px; font-weight: 500; cursor: pointer; letter-spacing: 0.05em; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+        .nav-link { color: #666; font-size: 14px; cursor: pointer; transition: color 0.2s; text-decoration: none; font-family: 'DM Sans', sans-serif; display: block; padding: 12px 0; border-bottom: 1px solid #1a1a1a; }
+        .nav-link:hover { color: #e8e6e0; }
+        .btn-primary { background: #e8e6e0; color: #0a0a0a; border: none; padding: 12px 24px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; border-radius: 2px; }
         .btn-primary:hover { background: #fff; }
-        .btn-secondary { background: transparent; color: #e8e6e0; border: 1px solid #333; padding: 12px 28px; font-size: 13px; cursor: pointer; letter-spacing: 0.05em; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+        .btn-secondary { background: transparent; color: #e8e6e0; border: 1px solid #333; padding: 12px 24px; font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; border-radius: 2px; }
         .btn-secondary:hover { border-color: #666; }
-        .btn-sm { padding: 8px 20px; font-size: 12px; }
-        .play-card { background: #111; border: 1px solid #1e1e1e; padding: 20px; transition: all 0.2s; cursor: default; }
+        .play-card { background: #111; border: 1px solid #1e1e1e; padding: 20px; transition: all 0.2s; }
         .play-card:hover { border-color: #333; background: #141414; }
-        .stat-pill { background: #111; border: 1px solid #1e1e1e; padding: 6px 14px; font-size: 12px; color: #666; letter-spacing: 0.05em; font-family: 'DM Sans', sans-serif; display: inline-block; }
-        .tier-card { background: #111; border: 1px solid #1e1e1e; padding: 24px; transition: border-color 0.2s; }
-        .tier-card:hover { border-color: #333; }
-        .input-field { background: #111; border: 1px solid #222; color: #e8e6e0; padding: 12px 16px; font-size: 14px; font-family: 'DM Sans', sans-serif; width: 100%; outline: none; transition: border-color 0.2s; resize: none; }
+        .input-field { background: #111; border: 1px solid #222; color: #e8e6e0; padding: 12px 16px; font-size: 14px; font-family: 'DM Sans', sans-serif; width: 100%; outline: none; transition: border-color 0.2s; resize: none; border-radius: 2px; }
         .input-field:focus { border-color: #555; }
         .input-field::placeholder { color: #444; }
         .section-label { font-size: 11px; letter-spacing: 0.15em; color: #555; text-transform: uppercase; font-family: 'DM Sans', sans-serif; margin-bottom: 12px; }
         .green { color: #10b981; }
-        .amber { color: #f59e0b; }
-        .muted { color: #666; }
-        .leaderboard-row { border-bottom: 1px solid #1a1a1a; padding: 14px 0; display: grid; grid-template-columns: 32px 1fr 80px 80px 60px 60px; gap: 8px; align-items: center; font-size: 13px; font-family: 'DM Sans', sans-serif; transition: background 0.15s; }
-        .leaderboard-row:hover { background: #111; }
         .progress-bar { height: 2px; background: #1e1e1e; margin-top: 8px; }
         .progress-fill { height: 2px; transition: width 1s ease; }
-        .filter-btn { background: transparent; border: 1px solid #222; color: #666; padding: 6px 16px; font-size: 11px; letter-spacing: 0.08em; cursor: pointer; font-family: 'DM Sans', sans-serif; text-transform: uppercase; transition: all 0.15s; }
+        .filter-btn { background: transparent; border: 1px solid #222; color: #666; padding: 6px 14px; font-size: 11px; letter-spacing: 0.08em; cursor: pointer; font-family: 'DM Sans', sans-serif; text-transform: uppercase; transition: all 0.15s; border-radius: 2px; }
         .filter-btn.active { border-color: #10b981; color: #10b981; }
-        .filter-btn:hover { border-color: #444; color: #999; }
+        .hamburger { background: none; border: 1px solid #333; color: #e8e6e0; width: 40px; height: 40px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; border-radius: 2px; }
+        .mobile-menu { position: fixed; top: 56px; left: 0; right: 0; background: #0a0a0a; border-bottom: 1px solid #1a1a1a; padding: 8px 24px 16px; z-index: 99; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
         .fade-up { animation: fadeUp 0.6s ease forwards; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         .cursor { animation: blink 1.1s infinite; }
+
+        /* Responsive grid helpers */
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
+        .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid #1e1e1e; padding-top: 40px; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .section-pad { padding: 80px 80px; }
+        .hero-pad { padding: 120px 80px 80px; }
+
+        @media (max-width: 768px) {
+          .grid-3 { grid-template-columns: 1fr; }
+          .grid-2 { grid-template-columns: 1fr; }
+          .grid-5 { grid-template-columns: 1fr 1fr; }
+          .stats-grid { grid-template-columns: 1fr 1fr; gap: 1px; }
+          .two-col { grid-template-columns: 1fr; gap: 40px; }
+          .section-pad { padding: 60px 24px; }
+          .hero-pad { padding: 90px 24px 60px; }
+          .desktop-nav { display: none !important; }
+          .mobile-hamburger { display: flex !important; }
+          .leaderboard-row { grid-template-columns: 24px 1fr 60px 60px !important; }
+          .leaderboard-col-hide { display: none !important; }
+        }
+
+        @media (min-width: 769px) {
+          .mobile-hamburger { display: none !important; }
+          .mobile-menu { display: none !important; }
+        }
       `}</style>
 
       {/* NAV */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(10,10,10,0.92)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1a1a1a", padding: "0 40px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 16, fontWeight: 500, letterSpacing: "0.2em", color: "#e8e6e0" }}>FOUNDRY</span>
-        <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(10,10,10,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1a1a1a", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 15, fontWeight: 500, letterSpacing: "0.2em", color: "#e8e6e0" }}>FOUNDRY</span>
+
+        {/* Desktop nav */}
+        <div className="desktop-nav" style={{ display: "flex", gap: 28, alignItems: "center" }}>
           {[["how", "How it works"], ["plays", "Live plays"], ["leaderboard", "Leaderboard"], ["apply", "Apply"]].map(([id, label]) => (
-            <span key={id} className={`nav-link ${activeSection === id ? "active" : ""}`} onClick={() => scrollTo(id)}>{label}</span>
+            <span key={id} style={{ color: "#666", fontSize: 13, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }} onClick={() => scrollTo(id)}>{label}</span>
           ))}
-          <button className="btn-primary btn-sm" onClick={() => scrollTo("apply")}>Apply now — it's free</button>
+          <button className="btn-primary" style={{ padding: "8px 20px", fontSize: 12 }} onClick={() => scrollTo("apply")}>Apply — it's free</button>
         </div>
+
+        {/* Mobile hamburger */}
+        <button className="hamburger mobile-hamburger" onClick={() => setMenuOpen(o => !o)}>
+          {menuOpen ? "✕" : "☰"}
+        </button>
       </nav>
 
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="mobile-menu">
+          {[["how", "How it works"], ["plays", "Live plays"], ["leaderboard", "Leaderboard"], ["apply", "Apply"]].map(([id, label]) => (
+            <span key={id} className="nav-link" onClick={() => scrollTo(id)}>{label}</span>
+          ))}
+          <button className="btn-primary" style={{ width: "100%", marginTop: 16, padding: "12px" }} onClick={() => scrollTo("apply")}>Apply now — it's free</button>
+        </div>
+      )}
+
       {/* HERO */}
-      <section id="home" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "120px 80px 80px", position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle at 70% 30%, rgba(16,185,129,0.04) 0%, transparent 60%), radial-gradient(circle at 20% 80%, rgba(245,158,11,0.03) 0%, transparent 50%)", pointerEvents: "none" }} />
-        <div style={{ maxWidth: 900 }}>
-          <div className="section-label" style={{ marginBottom: 32 }}>
+      <section id="home" className="hero-pad" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle at 70% 30%, rgba(16,185,129,0.04) 0%, transparent 60%)", pointerEvents: "none" }} />
+        <div style={{ maxWidth: 860 }}>
+          <div className="section-label" style={{ marginBottom: 28 }}>
             <span style={{ color: "#10b981" }}>●</span> Platform open — 48 active operators
           </div>
-          <h1 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(48px, 6vw, 76px)", fontWeight: 300, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 32, color: "#e8e6e0" }}>
+          <h1 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(38px, 6vw, 72px)", fontWeight: 300, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 28, color: "#e8e6e0" }}>
             We give you money<br />
             to <span style={{ color: "#10b981" }}>make money</span><span className="cursor" style={{ color: "#10b981" }}>_</span>
           </h1>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 18, color: "#888", lineHeight: 1.8, maxWidth: 560, marginBottom: 48 }}>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(15px, 2vw, 18px)", color: "#888", lineHeight: 1.8, maxWidth: 520, marginBottom: 40 }}>
             Got a good idea and the drive to act on it? We'll back you with real money. You keep a cut of what you make.
           </p>
-          <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 80 }}>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 60 }}>
             <button className="btn-primary" onClick={() => scrollTo("apply")}>Apply now — it's free</button>
             <button className="btn-secondary" onClick={() => scrollTo("plays")}>See what others are making</button>
           </div>
 
-          {/* Stats strip */}
-          <div style={{ display: "flex", gap: 0, borderTop: "1px solid #1e1e1e", paddingTop: 40 }}>
+          {/* Stats */}
+          <div className="stats-grid">
             {[
               { label: "Given out this month", value: 12430, prefix: "€" },
-              { label: "People currently running plays", value: 48 },
+              { label: "People running plays", value: 48 },
               { label: "Making a profit", value: 71, suffix: "%" },
               { label: "Deals completed", value: 214 },
             ].map((s, i) => (
-              <div key={i} style={{ flex: 1, paddingRight: 40, borderRight: i < 3 ? "1px solid #1a1a1a" : "none", paddingLeft: i > 0 ? 40 : 0 }}>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 28, fontWeight: 500, color: "#e8e6e0", marginBottom: 6 }}>
+              <div key={i} style={{ padding: "24px 24px 24px 0", borderRight: i < 3 ? "1px solid #1a1a1a" : "none", paddingLeft: i > 0 ? 24 : 0 }}>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(22px, 3vw, 28px)", fontWeight: 500, color: "#e8e6e0", marginBottom: 6 }}>
                   <Counter end={s.value} prefix={s.prefix} suffix={s.suffix} />
                 </div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#555", letterSpacing: "0.05em" }}>{s.label}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#555" }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -189,18 +226,18 @@ export default function Home() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="how" style={{ padding: "100px 80px", borderTop: "1px solid #1a1a1a" }}>
+      <section id="how" className="section-pad" style={{ borderTop: "1px solid #1a1a1a" }}>
         <div className="section-label">How it works</div>
-        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 64, color: "#e8e6e0" }}>Simple as that.</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 48, color: "#e8e6e0" }}>Simple as that.</h2>
+        <div className="grid-3">
           {[
             { num: "01", title: "Apply", body: "Tell us what you'd do with €100 and why you think you could make it worth more. No experience needed. No CV." },
             { num: "02", title: "Get the money", body: "If we like your thinking, we send you real money. Start small. Prove yourself. Get more." },
             { num: "03", title: "Make it grow", body: "Make it back plus profit. Return what we gave you, keep your cut. Do it again with more next time." },
           ].map((c, i) => (
-            <div key={i} className="play-card" style={{ padding: "40px" }}>
-              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#333", letterSpacing: "0.1em", marginBottom: 24 }}>{c.num}</div>
-              <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 24, fontWeight: 400, color: "#e8e6e0", marginBottom: 16 }}>{c.title}</h3>
+            <div key={i} className="play-card" style={{ padding: "32px" }}>
+              <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#333", letterSpacing: "0.1em", marginBottom: 20 }}>{c.num}</div>
+              <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 22, fontWeight: 400, color: "#e8e6e0", marginBottom: 12 }}>{c.title}</h3>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#666", lineHeight: 1.8 }}>{c.body}</p>
             </div>
           ))}
@@ -208,56 +245,44 @@ export default function Home() {
       </section>
 
       {/* LIVE PLAYS */}
-      <section id="plays" style={{ padding: "100px 80px", borderTop: "1px solid #1a1a1a" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48 }}>
-          <div>
-            <div className="section-label">Live plays</div>
-            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0" }}>Real people. Real money. Real results.</h2>
-          </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            {[["all", "All"], ["arbitrage", "Arbitrage"], ["digital", "Digital"], ["service", "Service"]].map(([cat, label]) => (
-              <button key={cat} className={`filter-btn ${filterCat === cat ? "active" : ""}`} onClick={() => setFilterCat(cat)}>{label}</button>
-            ))}
-          </div>
+      <section id="plays" className="section-pad" style={{ borderTop: "1px solid #1a1a1a" }}>
+        <div className="section-label">Live plays</div>
+        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(24px, 4vw, 38px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 24, color: "#e8e6e0" }}>Real people. Real money. Real results.</h2>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 32 }}>
+          {[["all", "All"], ["arbitrage", "Arbitrage"], ["digital", "Digital"], ["service", "Service"]].map(([cat, label]) => (
+            <button key={cat} className={`filter-btn ${filterCat === cat ? "active" : ""}`} onClick={() => setFilterCat(cat)}>{label}</button>
+          ))}
         </div>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
+        <div className="grid-3">
           {filteredPlays.map((p) => {
             const roi = Math.round((p.returnAmt / p.capital) * 100);
             return (
               <div key={p.id} className="play-card" onMouseEnter={() => setHoveredPlay(p.id)} onMouseLeave={() => setHoveredPlay(null)}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
                   <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#444" }}>#{p.id}</span>
-                  <span style={{ fontSize: 11, letterSpacing: "0.08em", padding: "3px 10px", border: `1px solid ${categoryColors[p.category]}33`, color: categoryColors[p.category], fontFamily: "'DM Sans', sans-serif", textTransform: "uppercase" }}>{p.category}</span>
+                  <span style={{ fontSize: 10, letterSpacing: "0.08em", padding: "3px 8px", border: `1px solid ${categoryColors[p.category]}33`, color: categoryColors[p.category], fontFamily: "'DM Sans', sans-serif", textTransform: "uppercase", borderRadius: 2 }}>{p.category}</span>
                 </div>
-                <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 16, fontWeight: 500, color: "#e8e6e0", marginBottom: 8 }}>{p.type}</h3>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "#555", marginBottom: 24, lineHeight: 1.6 }}>{p.desc}</p>
-
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
-                  <div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>PUT IN</div>
-                    <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 16, color: "#e8e6e0" }}>€{p.capital}</div>
-                  </div>
-                  <div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>MADE BACK</div>
-                    <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 16, color: "#10b981" }}>+€{p.returnAmt}</div>
-                  </div>
-                  <div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>TIME TAKEN</div>
-                    <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 14, color: "#888" }}>{p.duration}</div>
-                  </div>
-                  <div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>PROFIT</div>
-                    <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 14, color: "#10b981" }}>{roi}%</div>
-                  </div>
+                <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 500, color: "#e8e6e0", marginBottom: 6 }}>{p.type}</h3>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "#555", marginBottom: 20, lineHeight: 1.6 }}>{p.desc}</p>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
+                  {[
+                    ["PUT IN", `€${p.capital}`, "#e8e6e0"],
+                    ["MADE BACK", `+€${p.returnAmt}`, "#10b981"],
+                    ["TIME", p.duration, "#888"],
+                    ["PROFIT", `${roi}%`, "#10b981"],
+                  ].map(([label, val, color]) => (
+                    <div key={label}>
+                      <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: "#444", marginBottom: 3, letterSpacing: "0.05em" }}>{label}</div>
+                      <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 14, color }}>{val}</div>
+                    </div>
+                  ))}
                 </div>
-
                 <div className="progress-bar">
                   <div className="progress-fill" style={{ width: hoveredPlay === p.id ? `${Math.min(roi, 100)}%` : "0%", background: "#10b981" }} />
                 </div>
-                <div style={{ display: "flex", justifyContent: "space-between", marginTop: 16 }}>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#555" }}>@{p.operator.toLowerCase()}</span>
-                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#444" }}>{p.exit}</span>
+                <div style={{ display: "flex", justifyContent: "space-between", marginTop: 12 }}>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#555" }}>@{p.operator.toLowerCase()}</span>
+                  <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444" }}>{p.exit}</span>
                 </div>
               </div>
             );
@@ -266,57 +291,47 @@ export default function Home() {
       </section>
 
       {/* LEADERBOARD */}
-      <section id="leaderboard" style={{ padding: "100px 80px", borderTop: "1px solid #1a1a1a" }}>
+      <section id="leaderboard" className="section-pad" style={{ borderTop: "1px solid #1a1a1a" }}>
         <div className="section-label">Leaderboard</div>
-        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 16, color: "#e8e6e0" }}>The more you make, the more we back you.</h2>
-        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555", marginBottom: 48, maxWidth: 540 }}>
-          We don't just rank by profit. We reward people who are consistent, reliable, and smart with money. Gamblers don't make this board.
+        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 12, color: "#e8e6e0" }}>The more you make, the more we back you.</h2>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555", marginBottom: 32, maxWidth: 500 }}>
+          We don't just rank by profit. We reward people who are consistent and reliable. Gamblers don't make this board.
         </p>
-
-        <div style={{ border: "1px solid #1a1a1a" }}>
-          <div className="leaderboard-row" style={{ borderBottom: "1px solid #222", padding: "10px 20px" }}>
-            {["#", "Operator", "Profit", "Reliability", "Plays", "Score"].map((h, i) => (
-              <div key={i} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", letterSpacing: "0.1em", textTransform: "uppercase" }}>{h}</div>
+        <div style={{ border: "1px solid #1a1a1a", overflowX: "auto" }}>
+          <div style={{ minWidth: 400 }}>
+            <div className="leaderboard-row" style={{ borderBottom: "1px solid #222", padding: "10px 16px", display: "grid", gridTemplateColumns: "24px 1fr 70px 70px 50px 60px", gap: 8, alignItems: "center" }}>
+              {[["#", false], ["Operator", false], ["Profit", false], ["Reliability", true], ["Plays", true], ["Score", false]].map(([h, hide], i) => (
+                <div key={i} className={hide ? "leaderboard-col-hide" : ""} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: "#444", letterSpacing: "0.1em", textTransform: "uppercase" }}>{h}</div>
+              ))}
+            </div>
+            {leaderboard.map((op, i) => (
+              <div key={op.handle} style={{ borderBottom: "1px solid #141414", padding: "12px 16px", display: "grid", gridTemplateColumns: "24px 1fr 70px 70px 50px 60px", gap: 8, alignItems: "center" }}>
+                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#444" }}>{i + 1}</span>
+                <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 13, color: i === 0 ? "#f59e0b" : "#e8e6e0" }}>@{op.handle}</span>
+                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#10b981" }}>+{op.roi}%</span>
+                <div className="leaderboard-col-hide">
+                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#888" }}>{op.reliability}%</div>
+                </div>
+                <span className="leaderboard-col-hide" style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#666" }}>{op.plays}</span>
+                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 14, fontWeight: 500, color: i === 0 ? "#f59e0b" : "#e8e6e0" }}>{op.score}</span>
+              </div>
             ))}
           </div>
-          {leaderboard.map((op, i) => (
-            <div key={op.handle} className="leaderboard-row" style={{ padding: "14px 20px" }}>
-              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#444" }}>{i + 1}</span>
-              <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, color: i === 0 ? "#f59e0b" : "#e8e6e0" }}>@{op.handle}</span>
-              <span className="green" style={{ fontFamily: "'DM Mono', monospace", fontSize: 13 }}>+{op.roi}%</span>
-              <div>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 13, color: "#888" }}>{op.reliability}</div>
-                <div className="progress-bar"><div className="progress-fill" style={{ width: `${op.reliability}%`, background: "#10b981" }} /></div>
-              </div>
-              <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 13, color: "#666" }}>{op.plays}</span>
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 15, fontWeight: 500, color: i === 0 ? "#f59e0b" : "#e8e6e0" }}>{op.score}</span>
-                <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, padding: "2px 8px", border: `1px solid ${i === 0 ? "#f59e0b44" : "#1e1e1e"}`, color: i === 0 ? "#f59e0b" : "#555" }}>{op.tier}</span>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
 
       {/* TIERS */}
-      <section id="tiers" style={{ padding: "100px 80px", borderTop: "1px solid #1a1a1a" }}>
+      <section id="tiers" className="section-pad" style={{ borderTop: "1px solid #1a1a1a" }}>
         <div className="section-label">Levels</div>
-        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 64, color: "#e8e6e0" }}>Start with €100. Work your way up.</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
+        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 40, color: "#e8e6e0" }}>Start with €100. Work your way up.</h2>
+        <div className="grid-5">
           {tiers.map((t) => (
-            <div key={t.name} className="tier-card" style={{ position: "relative", overflow: "hidden" }}>
+            <div key={t.name} style={{ background: "#111", border: "1px solid #1e1e1e", padding: "20px 16px", position: "relative", overflow: "hidden" }}>
               <div style={{ width: 3, height: "100%", position: "absolute", left: 0, top: 0, background: t.color, opacity: 0.6 }} />
-              <div style={{ paddingLeft: 16 }}>
-                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: t.color, letterSpacing: "0.1em", marginBottom: 12 }}>{t.name.toUpperCase()}</div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 24, fontWeight: 500, color: "#e8e6e0", marginBottom: 8 }}>{t.alloc}</div>
-                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#555", lineHeight: 1.6, marginBottom: 20 }}>{t.desc}</p>
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                  {t.perks.map((perk, i) => (
-                    <div key={i} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#666", display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ color: t.color, fontSize: 10 }}>→</span> {perk}
-                    </div>
-                  ))}
-                </div>
+              <div style={{ paddingLeft: 12 }}>
+                <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 10, color: t.color, letterSpacing: "0.1em", marginBottom: 10 }}>{t.name.toUpperCase()}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 20, fontWeight: 500, color: "#e8e6e0", marginBottom: 6 }}>{t.alloc}</div>
+                <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#555", lineHeight: 1.6 }}>{t.desc}</p>
               </div>
             </div>
           ))}
@@ -324,18 +339,15 @@ export default function Home() {
       </section>
 
       {/* CULTURE */}
-      <section style={{ padding: "100px 80px", borderTop: "1px solid #1a1a1a", background: "#0d0d0d" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
+      <section className="section-pad" style={{ borderTop: "1px solid #1a1a1a", background: "#0d0d0d" }}>
+        <div className="two-col">
           <div>
             <div className="section-label">Who this is for</div>
-            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 32, color: "#e8e6e0" }}>
-              If you're smart<br />and hungry,<br />we want to back you.
+            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 24, color: "#e8e6e0" }}>
+              If you're smart and hungry, we want to back you.
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.9, marginBottom: 16 }}>
-              This is for people who figure things out. You don't need a degree. You don't need experience.
-            </p>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.9, marginBottom: 16 }}>
-              You need to be the kind of person who sees an opportunity and actually does something about it. Could be buying something cheap and selling it for more. Could be offering a service locally. Could be something we haven't thought of.
+              You don't need a degree. You don't need experience. You need to be the kind of person who sees an opportunity and actually does something about it.
             </p>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.9 }}>
               19 or 60 — doesn't matter. If you can make money move, we want to meet you.
@@ -343,18 +355,18 @@ export default function Home() {
           </div>
           <div>
             <div style={{ marginBottom: 24 }}>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#10b981", letterSpacing: "0.1em", marginBottom: 16, textTransform: "uppercase" }}>We back</div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#10b981", letterSpacing: "0.1em", marginBottom: 12, textTransform: "uppercase" }}>We back</div>
               {["People who spot deals others miss", "Anyone who can make €100 work harder", "Part-time hustlers and full-time operators", "People who figure things out"].map((item, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0", borderBottom: "1px solid #1a1a1a", fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#888" }}>
-                  <span className="green">✓</span> {item}
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 0", borderBottom: "1px solid #1a1a1a", fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#888" }}>
+                  <span style={{ color: "#10b981", flexShrink: 0 }}>✓</span> {item}
                 </div>
               ))}
             </div>
             <div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#666", letterSpacing: "0.1em", marginBottom: 16, textTransform: "uppercase" }}>Not for</div>
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#666", letterSpacing: "0.1em", marginBottom: 12, textTransform: "uppercase" }}>Not for</div>
               {["People who want easy money", "Get-rich-quick merchants", "People who talk more than they do"].map((item, i) => (
-                <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0", borderBottom: "1px solid #1a1a1a", fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555" }}>
-                  <span style={{ color: "#555" }}>✕</span> {item}
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 0", borderBottom: "1px solid #1a1a1a", fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555" }}>
+                  <span style={{ flexShrink: 0 }}>✕</span> {item}
                 </div>
               ))}
             </div>
@@ -363,41 +375,38 @@ export default function Home() {
       </section>
 
       {/* APPLICATION */}
-      <section id="apply" style={{ padding: "100px 80px", borderTop: "1px solid #1a1a1a" }}>
+      <section id="apply" className="section-pad" style={{ borderTop: "1px solid #1a1a1a" }}>
         {submitted ? (
-          <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }} className="fade-up">
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 40, color: "#10b981", marginBottom: 32 }}>✓</div>
-            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 16 }}>We've got it.</h2>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.8, marginBottom: 48 }}>
-              We read every application ourselves. If we think you've got what it takes, you'll hear from us. Strong applicants may get a trial allocation straight away.
+          <div style={{ maxWidth: 560, margin: "0 auto", textAlign: "center" }} className="fade-up">
+            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 40, color: "#10b981", marginBottom: 24 }}>✓</div>
+            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 32, fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 16 }}>We've got it.</h2>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.8, marginBottom: 40 }}>
+              We read every application ourselves. If we think you've got what it takes, you'll hear from us.
             </p>
-            <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
-              <button className="btn-secondary btn-sm" onClick={() => scrollTo("plays")}>See live plays</button>
-              <button className="btn-secondary btn-sm" onClick={() => scrollTo("leaderboard")}>See leaderboard</button>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+              <button className="btn-secondary" style={{ fontSize: 12, padding: "8px 20px" }} onClick={() => scrollTo("plays")}>See live plays</button>
+              <button className="btn-secondary" style={{ fontSize: 12, padding: "8px 20px" }} onClick={() => scrollTo("leaderboard")}>See leaderboard</button>
             </div>
           </div>
         ) : (
-          <div style={{ maxWidth: 700, margin: "0 auto" }}>
+          <div style={{ maxWidth: 680, margin: "0 auto" }}>
             <div className="section-label">Apply</div>
-            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 12 }}>Think you can make money grow? Show us.</h2>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555", marginBottom: 48, lineHeight: 1.7 }}>
-              We read every single application ourselves. We're not looking for the smartest person in the room. We're looking for someone who actually does things.
+            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(24px, 4vw, 38px)", fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 12 }}>Think you can make money grow? Show us.</h2>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555", marginBottom: 40, lineHeight: 1.7 }}>
+              We read every single application ourselves. We're not looking for the smartest person. We're looking for someone who actually does things.
             </p>
-
-            <div style={{ display: "flex", gap: 4, marginBottom: 48 }}>
+            <div style={{ display: "flex", gap: 4, marginBottom: 40 }}>
               {formSteps.map((s, i) => (
-                <div key={i} style={{ flex: 1, height: 2, background: i <= formStep ? "#10b981" : "#1e1e1e", transition: "background 0.3s" }} />
+                <div key={i} style={{ flex: 1, height: 2, background: i <= formStep ? "#10b981" : "#1e1e1e", transition: "background 0.3s", borderRadius: 1 }} />
               ))}
             </div>
-
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#555", letterSpacing: "0.1em", marginBottom: 24 }}>
+            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#555", letterSpacing: "0.1em", marginBottom: 20 }}>
               {String(formStep + 1).padStart(2, "0")} / {String(formSteps.length).padStart(2, "0")} — {formSteps[formStep].title}
             </div>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: 24, marginBottom: 40 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 36 }}>
               {formSteps[formStep].fields.map((f) => (
                 <div key={f.key}>
-                  <label style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "#888", display: "block", marginBottom: 10, lineHeight: 1.6 }}>{f.label}</label>
+                  <label style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "#888", display: "block", marginBottom: 8, lineHeight: 1.6 }}>{f.label}</label>
                   {f.type === "textarea" ? (
                     <textarea className="input-field" rows={5} placeholder={f.placeholder} value={formData[f.key] || ""} onChange={e => handleFormChange(f.key, e.target.value)} />
                   ) : (
@@ -406,15 +415,11 @@ export default function Home() {
                 </div>
               ))}
             </div>
-
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               {formStep > 0 ? (
-                <button className="btn-secondary btn-sm" onClick={() => setFormStep(p => p - 1)}>← Back</button>
+                <button className="btn-secondary" style={{ fontSize: 12, padding: "10px 20px" }} onClick={() => setFormStep(p => p - 1)}>← Back</button>
               ) : <div />}
-              <button
-                className="btn-primary btn-sm"
-                onClick={() => formStep < formSteps.length - 1 ? setFormStep(p => p + 1) : setSubmitted(true)}
-              >
+              <button className="btn-primary" style={{ fontSize: 13, padding: "12px 28px" }} onClick={() => formStep < formSteps.length - 1 ? setFormStep(p => p + 1) : setSubmitted(true)}>
                 {formStep < formSteps.length - 1 ? "Continue →" : "Submit"}
               </button>
             </div>
@@ -423,7 +428,7 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ borderTop: "1px solid #1a1a1a", padding: "40px 80px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+      <footer style={{ borderTop: "1px solid #1a1a1a", padding: "32px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
         <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 13, letterSpacing: "0.15em", color: "#444" }}>FOUNDRY</span>
         <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#444" }}>We give you money to make money.</span>
         <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#333" }}>© 2026</span>
