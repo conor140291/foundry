@@ -32,10 +32,13 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Foundry — We give you money to make money",
-    description: "Got a good idea and the drive to act on it? We'll back you with real money. You keep a cut of what you make.",
+description: "Got a good idea and the drive to act on it? We'll back you with real money. You keep a cut of what you make.",
   },
+};
 
 export default function RootLayout({
+
+
   children,
 }: Readonly<{
   children: React.ReactNode;
