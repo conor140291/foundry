@@ -61,7 +61,7 @@ export default function Home() {
 
   const sections = ["home", "how", "plays", "leaderboard", "tiers", "apply"];
 
-  const scrollTo = (id) => {
+  const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setActiveSection(id);
   };
