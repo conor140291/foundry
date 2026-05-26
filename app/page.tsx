@@ -32,7 +32,7 @@ const categoryColors = { arbitrage: "#10b981", digital: "#6366f1", service: "#f5
 
 function Counter({ end, prefix = "", suffix = "" }: { end: number; prefix?: string; suffix?: string }) {
   const [val, setVal] = useState(0);
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(([e]) => {
       if (e.isIntersecting) {
