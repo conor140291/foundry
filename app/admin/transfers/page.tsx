@@ -259,7 +259,7 @@ export default function TransfersPage() {
   ).reduce((s, t) => s + t.amount, 0);
   const totalProfitEarned = transfers.filter(t =>
     t.type === "profit_split" && t.status === "done"
-  ).reduce((s, t) => s + t.amount * (1 / (PROFIT_SPLITS[t.operator_id as any]?.operator || 0.5) - 1), 0);
+    ).reduce((s, t) => s + t.amount * 0.5, 0);
 
   const pendingTransfers = transfers.filter(t => t.status === "pending" || t.status === "overdue");
   const completedTransfers = transfers.filter(t => t.status === "done");
