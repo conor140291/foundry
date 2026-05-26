@@ -28,7 +28,7 @@ const tiers = [
   { name: "Syndicate", alloc: "Custom", color: "#ef4444", desc: "You are the strategy.", perks: ["Full negotiation", "Fund-level access", "Joint ventures"] },
 ];
 
-const categoryColors = { arbitrage: "#10b981", digital: "#6366f1", service: "#f59e0b" };
+const categoryColors: Record<string, string> = { arbitrage: "#10b981", digital: "#6366f1", service: "#f59e0b" };
 
 function Counter({ end, prefix = "", suffix = "" }: { end: number; prefix?: string; suffix?: string }) {
   const [val, setVal] = useState(0);
