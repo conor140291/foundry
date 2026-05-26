@@ -56,7 +56,7 @@ export default function Home() {
   const [formStep, setFormStep] = useState(0);
   const [formData, setFormData] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [hoveredPlay, setHoveredPlay] = useState(null);
+  const [hoveredPlay, setHoveredPlay] = useState<string | null>(null);
   const [filterCat, setFilterCat] = useState("all");
 
   const sections = ["home", "how", "plays", "leaderboard", "tiers", "apply"];
