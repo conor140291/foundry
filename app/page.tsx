@@ -66,7 +66,7 @@ export default function Home() {
     setActiveSection(id);
   };
 
-  const handleFormChange = (key, val) => setFormData(p => ({ ...p, [key]: val }));
+  const handleFormChange = (key: string, val: string) => setFormData(p => ({ ...p, [key]: val }));
 
   const formSteps = [
     {
