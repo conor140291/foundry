@@ -54,7 +54,7 @@ function Counter({ end, prefix = "", suffix = "" }: { end: number; prefix?: stri
 export default function Home() {
   const [activeSection, setActiveSection] = useState("home");
   const [formStep, setFormStep] = useState(0);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState(false);
   const [hoveredPlay, setHoveredPlay] = useState<string | null>(null);
   const [filterCat, setFilterCat] = useState("all");
