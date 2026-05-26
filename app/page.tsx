@@ -30,7 +30,7 @@ const tiers = [
 
 const categoryColors = { arbitrage: "#10b981", digital: "#6366f1", service: "#f59e0b" };
 
-function Counter({ end, prefix = "", suffix = "" }) {
+function Counter({ end, prefix = "", suffix = "" }: { end: number; prefix?: string; suffix?: string }) {
   const [val, setVal] = useState(0);
   const ref = useRef();
   useEffect(() => {
