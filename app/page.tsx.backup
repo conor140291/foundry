@@ -21,7 +21,7 @@ const leaderboard = [
 ];
 
 const tiers = [
-  { name: "Scout", alloc: "€100", color: "#6b7280", desc: "Your first play. Prove your instincts.", perks: ["Base profit split", "Community access"] },
+  { name: "Scout", alloc: "€100", color: "#6b7280", desc: "Entry level. Prove your instincts.", perks: ["Base profit split", "Community access"] },
   { name: "Operator", alloc: "€500", color: "#10b981", desc: "Consistent. Creative. Reliable.", perks: ["Improved split", "Priority review", "Play analytics"] },
   { name: "Strategist", alloc: "€2,500", color: "#f59e0b", desc: "You have a system. We fund it.", perks: ["Top-tier split", "Private channels", "Exclusive deals"] },
   { name: "Partner", alloc: "€10,000", color: "#8b5cf6", desc: "Proven track record.", perks: ["Custom terms", "Direct line to team", "Co-investment"] },
@@ -58,6 +58,8 @@ export default function Home() {
   const [submitted, setSubmitted] = useState(false);
   const [hoveredPlay, setHoveredPlay] = useState<string | null>(null);
   const [filterCat, setFilterCat] = useState("all");
+
+  const sections = ["home", "how", "plays", "leaderboard", "tiers", "apply"];
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -102,7 +104,7 @@ export default function Home() {
   const filteredPlays = filterCat === "all" ? plays : plays.filter(p => p.category === filterCat);
 
   return (
-    <div style={{ background: "#0a0a0a", color: "#e8e6e0", minHeight: "100vh", fontFamily: "'DM Sans', 'Inter', sans-serif" }}>
+    <div style={{ background: "#0a0a0a", color: "#e8e6e0", minHeight: "100vh", fontFamily: "'DM Mono', 'Geist Mono', 'Fira Code', monospace" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -146,7 +148,7 @@ export default function Home() {
           {[["how", "How it works"], ["plays", "Live plays"], ["leaderboard", "Leaderboard"], ["apply", "Apply"]].map(([id, label]) => (
             <span key={id} className={`nav-link ${activeSection === id ? "active" : ""}`} onClick={() => scrollTo(id)}>{label}</span>
           ))}
-          <button className="btn-primary btn-sm" onClick={() => scrollTo("apply")}>Apply now — it's free</button>
+          <button className="btn-primary btn-sm" onClick={() => scrollTo("apply")}>Apply for capital</button>
         </div>
       </nav>
 
@@ -157,25 +159,26 @@ export default function Home() {
           <div className="section-label" style={{ marginBottom: 32 }}>
             <span style={{ color: "#10b981" }}>●</span> Platform open — 48 active operators
           </div>
-          <h1 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(48px, 6vw, 76px)", fontWeight: 300, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 32, color: "#e8e6e0" }}>
-            We give you money<br />
-            to <span style={{ color: "#10b981" }}>make money</span><span className="cursor" style={{ color: "#10b981" }}>_</span>
+          <h1 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(52px, 7vw, 88px)", fontWeight: 300, lineHeight: 1.05, letterSpacing: "-0.02em", marginBottom: 32, color: "#e8e6e0" }}>
+            Capital for<br />
+            <span style={{ color: "#10b981" }}>high-agency</span><br />
+            people<span className="cursor" style={{ color: "#10b981" }}>_</span>
           </h1>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 18, color: "#888", lineHeight: 1.8, maxWidth: 560, marginBottom: 48 }}>
-            Got a good idea and the drive to act on it? We'll back you with real money. You keep a cut of what you make.
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 18, color: "#888", lineHeight: 1.7, maxWidth: 520, marginBottom: 48 }}>
+            Foundry allocates real capital to operators who can create value from opportunity. Start small. Build reputation. Unlock larger allocations.
           </p>
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginBottom: 80 }}>
-            <button className="btn-primary" onClick={() => scrollTo("apply")}>Apply now — it's free</button>
-            <button className="btn-secondary" onClick={() => scrollTo("plays")}>See what others are making</button>
+            <button className="btn-primary" onClick={() => scrollTo("apply")}>Apply for capital</button>
+            <button className="btn-secondary" onClick={() => scrollTo("plays")}>View live operators</button>
           </div>
 
           {/* Stats strip */}
           <div style={{ display: "flex", gap: 0, borderTop: "1px solid #1e1e1e", paddingTop: 40 }}>
             {[
-              { label: "Given out this month", value: 12430, prefix: "€" },
-              { label: "People currently running plays", value: 48 },
-              { label: "Making a profit", value: 71, suffix: "%" },
-              { label: "Deals completed", value: 214 },
+              { label: "Allocated this month", value: 12430, prefix: "€" },
+              { label: "Active operators", value: 48 },
+              { label: "Profitable operators", value: 71, suffix: "%" },
+              { label: "Plays executed", value: 214 },
             ].map((s, i) => (
               <div key={i} style={{ flex: 1, paddingRight: 40, borderRight: i < 3 ? "1px solid #1a1a1a" : "none", paddingLeft: i > 0 ? 40 : 0 }}>
                 <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 28, fontWeight: 500, color: "#e8e6e0", marginBottom: 6 }}>
@@ -191,12 +194,12 @@ export default function Home() {
       {/* HOW IT WORKS */}
       <section id="how" style={{ padding: "100px 80px", borderTop: "1px solid #1a1a1a" }}>
         <div className="section-label">How it works</div>
-        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 64, color: "#e8e6e0" }}>Simple as that.</h2>
+        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 64, color: "#e8e6e0" }}>Three steps to funded.</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
           {[
-            { num: "01", title: "Apply", body: "Tell us what you'd do with €100 and why you think you could make it worth more. No experience needed. No CV." },
-            { num: "02", title: "Get the money", body: "If we like your thinking, we send you real money. Start small. Prove yourself. Get more." },
-            { num: "03", title: "Make it grow", body: "Make it back plus profit. Return what we gave you, keep your cut. Do it again with more next time." },
+            { num: "01", title: "Apply", body: "Tell us how you think, what opportunities you spot, and how you'd deploy capital. No CV. No credentials. Pure judgment." },
+            { num: "02", title: "Get allocated", body: "Approved operators receive €100–€1,000 based on experience, creativity, and reliability. Deploy it. Return the principal. Keep your cut." },
+            { num: "03", title: "Compound", body: "Grow capital, build reputation, unlock larger allocations. The system rewards execution — not promises." },
           ].map((c, i) => (
             <div key={i} className="play-card" style={{ padding: "40px" }}>
               <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#333", letterSpacing: "0.1em", marginBottom: 24 }}>{c.num}</div>
@@ -212,7 +215,7 @@ export default function Home() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 48 }}>
           <div>
             <div className="section-label">Live plays</div>
-            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0" }}>Real people. Real money. Real results.</h2>
+            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0" }}>Real operators. Real returns.</h2>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
             {[["all", "All"], ["arbitrage", "Arbitrage"], ["digital", "Digital"], ["service", "Service"]].map(([cat, label]) => (
@@ -235,19 +238,19 @@ export default function Home() {
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
                   <div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>PUT IN</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>CAPITAL IN</div>
                     <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 16, color: "#e8e6e0" }}>€{p.capital}</div>
                   </div>
                   <div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>MADE BACK</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>RETURN</div>
                     <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 16, color: "#10b981" }}>+€{p.returnAmt}</div>
                   </div>
                   <div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>TIME TAKEN</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>DURATION</div>
                     <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 14, color: "#888" }}>{p.duration}</div>
                   </div>
                   <div>
-                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>PROFIT</div>
+                    <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginBottom: 4, letterSpacing: "0.05em" }}>ROI</div>
                     <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 14, color: "#10b981" }}>{roi}%</div>
                   </div>
                 </div>
@@ -268,14 +271,14 @@ export default function Home() {
       {/* LEADERBOARD */}
       <section id="leaderboard" style={{ padding: "100px 80px", borderTop: "1px solid #1a1a1a" }}>
         <div className="section-label">Leaderboard</div>
-        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 16, color: "#e8e6e0" }}>The more you make, the more we back you.</h2>
+        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 16, color: "#e8e6e0" }}>Ranked by judgment, not just profit.</h2>
         <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555", marginBottom: 48, maxWidth: 540 }}>
-          We don't just rank by profit. We reward people who are consistent, reliable, and smart with money. Gamblers don't make this board.
+          Foundry Score weights ROI, consistency, reliability, risk efficiency, and capital preservation. Gamblers don't make the board.
         </p>
 
         <div style={{ border: "1px solid #1a1a1a" }}>
           <div className="leaderboard-row" style={{ borderBottom: "1px solid #222", padding: "10px 20px" }}>
-            {["#", "Operator", "Profit", "Reliability", "Plays", "Score"].map((h, i) => (
+            {["#", "Operator", "ROI", "Reliability", "Plays", "Score"].map((h, i) => (
               <div key={i} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", letterSpacing: "0.1em", textTransform: "uppercase" }}>{h}</div>
             ))}
           </div>
@@ -300,8 +303,8 @@ export default function Home() {
 
       {/* TIERS */}
       <section id="tiers" style={{ padding: "100px 80px", borderTop: "1px solid #1a1a1a" }}>
-        <div className="section-label">Levels</div>
-        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 64, color: "#e8e6e0" }}>Start with €100. Work your way up.</h2>
+        <div className="section-label">Tiers</div>
+        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 64, color: "#e8e6e0" }}>The more you prove, the more we fund.</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 2 }}>
           {tiers.map((t) => (
             <div key={t.name} className="tier-card" style={{ position: "relative", overflow: "hidden" }}>
@@ -329,30 +332,27 @@ export default function Home() {
           <div>
             <div className="section-label">Who this is for</div>
             <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 32, color: "#e8e6e0" }}>
-              If you're smart<br />and hungry,<br />we want to back you.
+              Resourceful people.<br />Full stop.
             </h2>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.9, marginBottom: 16 }}>
-              This is for people who figure things out. You don't need a degree. You don't need experience.
-            </p>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.9, marginBottom: 16 }}>
-              You need to be the kind of person who sees an opportunity and actually does something about it. Could be buying something cheap and selling it for more. Could be offering a service locally. Could be something we haven't thought of.
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.9, marginBottom: 24 }}>
+              Foundry is built for builders, arbitrage thinkers, and operators. People who notice inefficiencies. People who act on them.
             </p>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.9 }}>
-              19 or 60 — doesn't matter. If you can make money move, we want to meet you.
+              We care more about execution than credentials. More about judgment than polish.
             </p>
           </div>
           <div>
             <div style={{ marginBottom: 24 }}>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#10b981", letterSpacing: "0.1em", marginBottom: 16, textTransform: "uppercase" }}>We back</div>
-              {["People who spot deals others miss", "Anyone who can make €100 work harder", "Part-time hustlers and full-time operators", "People who figure things out"].map((item, i) => (
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#10b981", letterSpacing: "0.1em", marginBottom: 16, textTransform: "uppercase" }}>We fund</div>
+              {["Arbitrage thinkers", "Builders with hustle", "Operators with instinct", "People who make things happen"].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0", borderBottom: "1px solid #1a1a1a", fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#888" }}>
                   <span className="green">✓</span> {item}
                 </div>
               ))}
             </div>
             <div>
-              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#666", letterSpacing: "0.1em", marginBottom: 16, textTransform: "uppercase" }}>Not for</div>
-              {["People who want easy money", "Get-rich-quick merchants", "People who talk more than they do"].map((item, i) => (
+              <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#666", letterSpacing: "0.1em", marginBottom: 16, textTransform: "uppercase" }}>We don't fund</div>
+              {["Gamblers", "Fake gurus", "People looking for a salary", "Reckless speculators"].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 0", borderBottom: "1px solid #1a1a1a", fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555" }}>
                   <span style={{ color: "#555" }}>✕</span> {item}
                 </div>
@@ -367,23 +367,24 @@ export default function Home() {
         {submitted ? (
           <div style={{ maxWidth: 600, margin: "0 auto", textAlign: "center" }} className="fade-up">
             <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 40, color: "#10b981", marginBottom: 32 }}>✓</div>
-            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 16 }}>We've got it.</h2>
+            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 16 }}>Application received.</h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.8, marginBottom: 48 }}>
-              We read every application ourselves. If we think you've got what it takes, you'll hear from us. Strong applicants may get a trial allocation straight away.
+              Foundry reviews applications continuously. Strong operators may receive immediate trial allocations. You'll hear from us.
             </p>
             <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
-              <button className="btn-secondary btn-sm" onClick={() => scrollTo("plays")}>See live plays</button>
+              <button className="btn-secondary btn-sm" onClick={() => scrollTo("plays")}>View live plays</button>
               <button className="btn-secondary btn-sm" onClick={() => scrollTo("leaderboard")}>See leaderboard</button>
             </div>
           </div>
         ) : (
           <div style={{ maxWidth: 700, margin: "0 auto" }}>
-            <div className="section-label">Apply</div>
-            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 12 }}>Think you can make money grow? Show us.</h2>
+            <div className="section-label">Application</div>
+            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 42, fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 12 }}>Apply for capital access</h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555", marginBottom: 48, lineHeight: 1.7 }}>
-              We read every single application ourselves. We're not looking for the smartest person in the room. We're looking for someone who actually does things.
+              Every application is reviewed manually. We look for resourcefulness, judgment, creativity, and execution ability.
             </p>
 
+            {/* Progress */}
             <div style={{ display: "flex", gap: 4, marginBottom: 48 }}>
               {formSteps.map((s, i) => (
                 <div key={i} style={{ flex: 1, height: 2, background: i <= formStep ? "#10b981" : "#1e1e1e", transition: "background 0.3s" }} />
@@ -415,7 +416,7 @@ export default function Home() {
                 className="btn-primary btn-sm"
                 onClick={() => formStep < formSteps.length - 1 ? setFormStep(p => p + 1) : setSubmitted(true)}
               >
-                {formStep < formSteps.length - 1 ? "Continue →" : "Submit"}
+                {formStep < formSteps.length - 1 ? "Continue →" : "Submit application"}
               </button>
             </div>
           </div>
@@ -425,8 +426,8 @@ export default function Home() {
       {/* FOOTER */}
       <footer style={{ borderTop: "1px solid #1a1a1a", padding: "40px 80px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 13, letterSpacing: "0.15em", color: "#444" }}>FOUNDRY</span>
-        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#444" }}>We give you money to make money.</span>
-        <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#333" }}>© 2026</span>
+        <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#444" }}>Capital allocation for high-agency operators.</span>
+        <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#333" }}>© 2025</span>
       </footer>
     </div>
   );
