@@ -24,7 +24,7 @@ interface FormData {
   age: string;
   location: string;
   socialHandle: string;
-  q1: string; // €100 plan
+  q1: string; // €500 plan
   q2: string; // inefficiency
   q3: string; // value story
   q4: string; // best at
@@ -485,7 +485,7 @@ export default function ApplyPage() {
           {step === 3 && (
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               <Field
-                label="You receive €100 today. How do you turn it into more within 7 days?"
+                label="You receive €500 today. How do you turn it into more within 7 days?"
                 name="q1" value={form.q1} onChange={setField} rows={6}
                 placeholder="Be specific. Name the platforms, the products, the buyers. Walk us through your actual plan..."
               />

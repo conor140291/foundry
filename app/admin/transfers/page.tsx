@@ -59,10 +59,10 @@ export default function AdminPage() {
 
   const approveApp = async (app: any) => {
     await supabase.from("applications").update({ status: "approved", reviewed_at: new Date().toISOString() }).eq("id", app.id);
-    await supabase.from("operators").update({ status: "active", current_allocation: 100, id_verified: true }).eq("id", app.operator_id);
+    await supabase.from("operators").update({ status: "active", current_allocation: 500, id_verified: true }).eq("id", app.operator_id);
     await supabase.from("allocations").insert({
       operator_id: app.operator_id,
-      amount: 100,
+      amount: 500,
       direction: "issued",
       notes: "Initial allocation on approval",
       revolut_ref: `FRY-${Date.now().toString().slice(-6)}`,

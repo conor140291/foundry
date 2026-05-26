@@ -20,8 +20,8 @@ const leaderboard = [
 ];
 
 const tiers = [
-  { name: "Scout", alloc: "€100", color: "#6b7280", desc: "Your first play." },
-  { name: "Operator", alloc: "€500", color: "#10b981", desc: "Consistent. Creative." },
+  { name: "Scout", alloc: "€500", color: "#6b7280", desc: "Your first play." },
+  { name: "Operator", alloc: "€1,250", color: "#10b981", desc: "Consistent. Creative." },
   { name: "Strategist", alloc: "€2,500", color: "#f59e0b", desc: "You have a system." },
   { name: "Partner", alloc: "€10,000", color: "#8b5cf6", desc: "Proven track record." },
   { name: "Syndicate", alloc: "Custom", color: "#ef4444", desc: "You are the strategy." },
@@ -78,7 +78,7 @@ export default function Home() {
     {
       title: "How you think",
       fields: [
-        { key: "q1", label: "You receive €100 today. How do you turn it into more within 7 days?", type: "textarea", placeholder: "Be specific. Walk us through your actual thinking..." },
+        { key: "q1", label: "You receive €500 today. How do you turn it into more within 7 days?", type: "textarea", placeholder: "Be specific. Walk us through your actual thinking..." },
         { key: "q2", label: "What inefficiency in the world do most people ignore?", type: "textarea", placeholder: "Something you've noticed that others haven't..." },
       ]
     },
@@ -231,7 +231,7 @@ export default function Home() {
         <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 48, color: "#e8e6e0" }}>Simple as that.</h2>
         <div className="grid-3">
           {[
-            { num: "01", title: "Apply", body: "Tell us what you'd do with €100 and why you think you could make it worth more. No experience needed. No CV." },
+            { num: "01", title: "Apply", body: "Tell us what you'd do with €500 and why you think you could make it worth more. No experience needed. No CV." },
             { num: "02", title: "Get the money", body: "If we like your thinking, we send you real money. Start small. Prove yourself. Get more." },
             { num: "03", title: "Make it grow", body: "Make it back plus profit. Return what we gave you, keep your cut. Do it again with more next time." },
           ].map((c, i) => (
@@ -323,7 +323,7 @@ export default function Home() {
       {/* TIERS */}
       <section id="tiers" className="section-pad" style={{ borderTop: "1px solid #1a1a1a" }}>
         <div className="section-label">Levels</div>
-        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 40, color: "#e8e6e0" }}>Start with €100. Work your way up.</h2>
+        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 40, color: "#e8e6e0" }}>Start with €500. Work your way up.</h2>
         <div className="grid-5">
           {tiers.map((t) => (
             <div key={t.name} style={{ background: "#111", border: "1px solid #1e1e1e", padding: "20px 16px", position: "relative", overflow: "hidden" }}>
@@ -356,7 +356,7 @@ export default function Home() {
           <div>
             <div style={{ marginBottom: 24 }}>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#10b981", letterSpacing: "0.1em", marginBottom: 12, textTransform: "uppercase" }}>We back</div>
-              {["People who spot deals others miss", "Anyone who can make €100 work harder", "Part-time hustlers and full-time operators", "People who figure things out"].map((item, i) => (
+              {["People who spot deals others miss", "Anyone who can make €500 work harder", "Part-time hustlers and full-time operators", "People who figure things out"].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 0", borderBottom: "1px solid #1a1a1a", fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#888" }}>
                   <span style={{ color: "#10b981", flexShrink: 0 }}>✓</span> {item}
                 </div>
