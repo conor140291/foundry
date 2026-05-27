@@ -375,57 +375,20 @@ export default function Home() {
       </section>
 
       {/* APPLICATION */}
-      <section id="apply" className="section-pad" style={{ borderTop: "1px solid #1a1a1a" }}>
-        {submitted ? (
-          <div style={{ maxWidth: 560, margin: "0 auto", textAlign: "center" }} className="fade-up">
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 40, color: "#10b981", marginBottom: 24 }}>✓</div>
-            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 32, fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 16 }}>We've got it.</h2>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.8, marginBottom: 40 }}>
-              We read every application ourselves. If we think you've got what it takes, you'll hear from us.
-            </p>
-            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <button className="btn-secondary" style={{ fontSize: 12, padding: "8px 20px" }} onClick={() => scrollTo("plays")}>See live plays</button>
-              <button className="btn-secondary" style={{ fontSize: 12, padding: "8px 20px" }} onClick={() => scrollTo("leaderboard")}>See leaderboard</button>
-            </div>
-          </div>
-        ) : (
-          <div style={{ maxWidth: 680, margin: "0 auto" }}>
-            <div className="section-label">Apply</div>
-            <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(24px, 4vw, 38px)", fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 12 }}>Think you can make money grow? Show us.</h2>
-            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555", marginBottom: 40, lineHeight: 1.7 }}>
-              We read every single application ourselves. We're not looking for the smartest person. We're looking for someone who actually does things.
-            </p>
-            <div style={{ display: "flex", gap: 4, marginBottom: 40 }}>
-              {formSteps.map((s, i) => (
-                <div key={i} style={{ flex: 1, height: 2, background: i <= formStep ? "#10b981" : "#1e1e1e", transition: "background 0.3s", borderRadius: 1 }} />
-              ))}
-            </div>
-            <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#555", letterSpacing: "0.1em", marginBottom: 20 }}>
-              {String(formStep + 1).padStart(2, "0")} / {String(formSteps.length).padStart(2, "0")} — {formSteps[formStep].title}
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 20, marginBottom: 36 }}>
-              {formSteps[formStep].fields.map((f) => (
-                <div key={f.key}>
-                  <label style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "#888", display: "block", marginBottom: 8, lineHeight: 1.6 }}>{f.label}</label>
-                  {f.type === "textarea" ? (
-                    <textarea className="input-field" rows={5} placeholder={f.placeholder} value={formData[f.key] || ""} onChange={e => handleFormChange(f.key, e.target.value)} />
-                  ) : (
-                    <input className="input-field" type={f.type} placeholder={f.placeholder} value={formData[f.key] || ""} onChange={e => handleFormChange(f.key, e.target.value)} />
-                  )}
-                </div>
-              ))}
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              {formStep > 0 ? (
-                <button className="btn-secondary" style={{ fontSize: 12, padding: "10px 20px" }} onClick={() => setFormStep(p => p - 1)}>← Back</button>
-              ) : <div />}
-              <button className="btn-primary" style={{ fontSize: 13, padding: "12px 28px" }} onClick={() => formStep < formSteps.length - 1 ? setFormStep(p => p + 1) : setSubmitted(true)}>
-                {formStep < formSteps.length - 1 ? "Continue →" : "Submit"}
-              </button>
-            </div>
-          </div>
-        )}
-      </section>
+      <section className="section-pad" style={{ borderTop: "1px solid #1a1a1a", textAlign: "center" }}>
+  <div style={{ maxWidth: 560, margin: "0 auto" }}>
+    <div className="section-label" style={{ marginBottom: 16 }}>Ready?</div>
+    <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 16 }}>
+      Back yourself. We'll back you too.
+    </h2>
+    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", marginBottom: 36, lineHeight: 1.8 }}>
+      Apply in minutes. No CV. No experience needed. Just show us how you think.
+    </p>
+    <button className="btn-primary" style={{ fontSize: 15, padding: "14px 36px" }} onClick={() => window.location.href = "/apply/v2"}>
+      Apply now — it's free
+    </button>
+  </div>
+</section>
 
       {/* FOOTER */}
       <footer style={{ borderTop: "1px solid #1a1a1a", padding: "32px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
