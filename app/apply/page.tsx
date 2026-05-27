@@ -437,6 +437,8 @@ export default function ApplyPage() {
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                 <Field label="Age" name="age" value={form.age} onChange={setField} type="number" placeholder="24" />
                 <Field label="Location" name="location" value={form.location} onChange={setField} placeholder="City, Country" />
+                { key: "email", label: "Email address", type: "email", placeholder: "your@email.com" },
+{ key: "phone", label: "Phone number", type: "tel", placeholder: "+353 87 123 4567" },
               </div>
               <Field
                 label="LinkedIn / X (optional)"
