@@ -3,12 +3,12 @@
 import { useState, useEffect, useRef } from "react";
 
 const plays = [
-  { id: "0182", type: "Marketplace Arbitrage", desc: "Bought office chairs from liquidation auction", capital: 240, exit: "Resold to coworking space", duration: "48h", returnAmt: 410, operator: "Mason", category: "arbitrage" },
-  { id: "0221", type: "AI Lead Generation", desc: "Built local dentist lead funnel", capital: 80, exit: "Lead package sold", duration: "6d", returnAmt: 620, operator: "Ava", category: "digital" },
-  { id: "0318", type: "Event Arbitrage", desc: "Secured underpriced festival passes", capital: 300, exit: "Resold via classifieds", duration: "72h", returnAmt: 190, operator: "Lewis", category: "arbitrage" },
-  { id: "0401", type: "Print-on-Demand", desc: "Seasonal merch drop via Printful", capital: 60, exit: "Shopify store", duration: "5d", returnAmt: 290, operator: "Priya", category: "digital" },
-  { id: "0455", type: "Bulk Resale", desc: "Pallet of returned electronics", capital: 500, exit: "Individual eBay listings", duration: "9d", returnAmt: 740, operator: "Rory", category: "arbitrage" },
-  { id: "0501", type: "Service Arbitrage", desc: "Hired cleaner, flipped AirBnB booking margin", capital: 120, exit: "3 bookings cleared", duration: "4d", returnAmt: 210, operator: "Niamh", category: "service" },
+  { id: "0182", type: "Furniture Flip", desc: "Bought office chairs from liquidation auction", capital: 240, exit: "Resold to coworking space", duration: "48h", returnAmt: 410, operator: "Mason", category: "arbitrage" },
+  { id: "0221", type: "Lead Generation", desc: "Built a lead funnel for local dentists", capital: 80, exit: "Sold lead package", duration: "6d", returnAmt: 620, operator: "Ava", category: "digital" },
+  { id: "0318", type: "Ticket Flip", desc: "Bought underpriced festival passes at presale", capital: 300, exit: "Resold via classifieds", duration: "72h", returnAmt: 190, operator: "Lewis", category: "arbitrage" },
+  { id: "0401", type: "Print on Demand", desc: "Seasonal merch drop via Printful", capital: 60, exit: "Shopify store", duration: "5d", returnAmt: 290, operator: "Priya", category: "digital" },
+  { id: "0455", type: "Pallet Resale", desc: "Bought returned electronics pallet, listed individually", capital: 500, exit: "eBay listings", duration: "9d", returnAmt: 740, operator: "Rory", category: "arbitrage" },
+  { id: "0501", type: "Job Brokering", desc: "Booked cleaning jobs, managed the margin", capital: 120, exit: "3 jobs completed", duration: "4d", returnAmt: 210, operator: "Niamh", category: "service" },
 ];
 
 const leaderboard = [
@@ -52,9 +52,6 @@ function Counter({ end, prefix = "", suffix = "" }: { end: number; prefix?: stri
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [formStep, setFormStep] = useState(0);
-  const [formData, setFormData] = useState<Record<string, string>>({});
-  const [submitted, setSubmitted] = useState(false);
   const [hoveredPlay, setHoveredPlay] = useState<string | null>(null);
   const [filterCat, setFilterCat] = useState("all");
 
@@ -62,41 +59,6 @@ export default function Home() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMenuOpen(false);
   };
-
-  const handleFormChange = (key: string, val: string) => setFormData(p => ({ ...p, [key]: val }));
-
-  const formSteps = [
-    {
-      title: "The basics",
-      fields: [
-        { key: "name", label: "Full name", type: "text", placeholder: "Your name" },
-        { key: "age", label: "Age", type: "number", placeholder: "e.g. 24" },
-        { key: "location", label: "Location", type: "text", placeholder: "City, Country" },
-        { key: "social", label: "LinkedIn / X (optional)", type: "text", placeholder: "@handle or URL" },
-      ]
-    },
-    {
-      title: "How you think",
-      fields: [
-        { key: "q1", label: "You receive €500 today. How do you turn it into more within 7 days?", type: "textarea", placeholder: "Be specific. Walk us through your actual thinking..." },
-        { key: "q2", label: "What inefficiency in the world do most people ignore?", type: "textarea", placeholder: "Something you've noticed that others haven't..." },
-      ]
-    },
-    {
-      title: "How you operate",
-      fields: [
-        { key: "q3", label: "Tell us about a time you created value from almost nothing.", type: "textarea", placeholder: "Could be a side hustle, a deal, a fix — anything real." },
-        { key: "q4", label: "What kinds of opportunities are you naturally best at spotting?", type: "textarea", placeholder: "Arbitrage? Networks? Information gaps? Something else?" },
-      ]
-    },
-    {
-      title: "Your edge",
-      fields: [
-        { key: "q5", label: "If we allocated you €10,000 tomorrow, how would you deploy it?", type: "textarea", placeholder: "Be concrete. What's the play?" },
-        { key: "q6", label: "What's your unfair advantage?", type: "textarea", placeholder: "What do you have access to that others don't?" },
-      ]
-    }
-  ];
 
   const filteredPlays = filterCat === "all" ? plays : plays.filter(p => p.category === filterCat);
 
@@ -106,82 +68,60 @@ export default function Home() {
         @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
         * { box-sizing: border-box; margin: 0; padding: 0; }
         ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: #111; } ::-webkit-scrollbar-thumb { background: #333; }
-        .nav-link { color: #666; font-size: 14px; cursor: pointer; transition: color 0.2s; text-decoration: none; font-family: 'DM Sans', sans-serif; display: block; padding: 12px 0; border-bottom: 1px solid #1a1a1a; }
-        .nav-link:hover { color: #e8e6e0; }
         .btn-primary { background: #e8e6e0; color: #0a0a0a; border: none; padding: 12px 24px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; border-radius: 2px; }
         .btn-primary:hover { background: #fff; }
         .btn-secondary { background: transparent; color: #e8e6e0; border: 1px solid #333; padding: 12px 24px; font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; border-radius: 2px; }
         .btn-secondary:hover { border-color: #666; }
         .play-card { background: #111; border: 1px solid #1e1e1e; padding: 20px; transition: all 0.2s; }
         .play-card:hover { border-color: #333; background: #141414; }
-        .input-field { background: #111; border: 1px solid #222; color: #e8e6e0; padding: 12px 16px; font-size: 14px; font-family: 'DM Sans', sans-serif; width: 100%; outline: none; transition: border-color 0.2s; resize: none; border-radius: 2px; }
-        .input-field:focus { border-color: #555; }
-        .input-field::placeholder { color: #444; }
         .section-label { font-size: 11px; letter-spacing: 0.15em; color: #555; text-transform: uppercase; font-family: 'DM Sans', sans-serif; margin-bottom: 12px; }
-        .green { color: #10b981; }
         .progress-bar { height: 2px; background: #1e1e1e; margin-top: 8px; }
         .progress-fill { height: 2px; transition: width 1s ease; }
         .filter-btn { background: transparent; border: 1px solid #222; color: #666; padding: 6px 14px; font-size: 11px; letter-spacing: 0.08em; cursor: pointer; font-family: 'DM Sans', sans-serif; text-transform: uppercase; transition: all 0.15s; border-radius: 2px; }
         .filter-btn.active { border-color: #10b981; color: #10b981; }
         .hamburger { background: none; border: 1px solid #333; color: #e8e6e0; width: 40px; height: 40px; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; border-radius: 2px; }
         .mobile-menu { position: fixed; top: 56px; left: 0; right: 0; background: #0a0a0a; border-bottom: 1px solid #1a1a1a; padding: 8px 24px 16px; z-index: 99; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-up { animation: fadeUp 0.6s ease forwards; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        .cursor { animation: blink 1.1s infinite; }
-
-        /* Responsive grid helpers */
+        .nav-link-mob { color: #666; font-size: 14px; cursor: pointer; display: block; padding: 12px 0; border-bottom: 1px solid #1a1a1a; font-family: 'DM Sans', sans-serif; }
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
-        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px; }
         .grid-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; }
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid #1e1e1e; padding-top: 40px; }
         .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
         .section-pad { padding: 80px 80px; }
         .hero-pad { padding: 120px 80px 80px; }
-
         @media (max-width: 768px) {
           .grid-3 { grid-template-columns: 1fr; }
-          .grid-2 { grid-template-columns: 1fr; }
           .grid-5 { grid-template-columns: 1fr 1fr; }
-          .stats-grid { grid-template-columns: 1fr 1fr; gap: 1px; }
+          .stats-grid { grid-template-columns: 1fr 1fr; }
           .two-col { grid-template-columns: 1fr; gap: 40px; }
           .section-pad { padding: 60px 24px; }
           .hero-pad { padding: 90px 24px 60px; }
           .desktop-nav { display: none !important; }
           .mobile-hamburger { display: flex !important; }
-          .leaderboard-row { grid-template-columns: 24px 1fr 60px 60px !important; }
-          .leaderboard-col-hide { display: none !important; }
         }
-
         @media (min-width: 769px) {
           .mobile-hamburger { display: none !important; }
           .mobile-menu { display: none !important; }
         }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        .cursor { animation: blink 1.1s infinite; }
       `}</style>
 
       {/* NAV */}
       <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(10,10,10,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1a1a1a", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 15, fontWeight: 500, letterSpacing: "0.2em", color: "#e8e6e0" }}>FOUNDRY</span>
-
-        {/* Desktop nav */}
         <div className="desktop-nav" style={{ display: "flex", gap: 28, alignItems: "center" }}>
-          {[["how", "How it works"], ["plays", "Live plays"], ["leaderboard", "Leaderboard"]].map(([id, label]) => (
-  <span key={id} style={{ color: "#666", fontSize: 13, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }} onClick={() => scrollTo(id)}>{label}</span>
+          {[["how", "How it works"], ["plays", "Real examples"], ["leaderboard", "Leaderboard"]].map(([id, label]) => (
+            <span key={id} style={{ color: "#666", fontSize: 13, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }} onClick={() => scrollTo(id)}>{label}</span>
           ))}
           <button className="btn-primary" style={{ padding: "8px 20px", fontSize: 12 }} onClick={() => window.location.href = "/apply/v2"}>Apply — it's free</button>
         </div>
-
-        {/* Mobile hamburger */}
-        <button className="hamburger mobile-hamburger" onClick={() => setMenuOpen(o => !o)}>
-          {menuOpen ? "✕" : "☰"}
-        </button>
+        <button className="hamburger mobile-hamburger" onClick={() => setMenuOpen(o => !o)}>{menuOpen ? "✕" : "☰"}</button>
       </nav>
 
-      {/* Mobile menu */}
       {menuOpen && (
         <div className="mobile-menu">
-          {[["how", "How it works"], ["plays", "Live plays"], ["leaderboard", "Leaderboard"]].map(([id, label]) => (
-  <span key={id} className="nav-link" onClick={() => scrollTo(id)}>{label}</span>
+          {[["how", "How it works"], ["plays", "Real examples"], ["leaderboard", "Leaderboard"]].map(([id, label]) => (
+            <span key={id} className="nav-link-mob" onClick={() => scrollTo(id)}>{label}</span>
           ))}
           <button className="btn-primary" style={{ width: "100%", marginTop: 16, padding: "12px" }} onClick={() => window.location.href = "/apply/v2"}>Apply now — it's free</button>
         </div>
@@ -192,33 +132,37 @@ export default function Home() {
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle at 70% 30%, rgba(16,185,129,0.04) 0%, transparent 60%)", pointerEvents: "none" }} />
         <div style={{ maxWidth: 860 }}>
           <div className="section-label" style={{ marginBottom: 28 }}>
-            <span style={{ color: "#10b981" }}>●</span> Platform open — 48 active operators
+            <span style={{ color: "#10b981" }}>●</span> Platform open — 48 people currently hustling
           </div>
           <h1 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(38px, 6vw, 72px)", fontWeight: 300, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 28, color: "#e8e6e0" }}>
             We give you money<br />
             to <span style={{ color: "#10b981" }}>make money</span><span className="cursor" style={{ color: "#10b981" }}>_</span>
           </h1>
-          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(15px, 2vw, 18px)", color: "#888", lineHeight: 1.8, maxWidth: 520, marginBottom: 40 }}>
-            Got a good idea and the drive to act on it? We'll back you with real money. You keep a cut of what you make.
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(15px, 2vw, 19px)", color: "#888", lineHeight: 1.9, maxWidth: 580, marginBottom: 16 }}>
+            We give you <strong style={{ color: "#e8e6e0" }}>€500 and a week.</strong> Buy something cheap and sell it for more. Do a job. Build something quick and sell it. Whatever your hustle is — go make it grow.
+          </p>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(14px, 1.8vw, 17px)", color: "#666", lineHeight: 1.9, maxWidth: 540, marginBottom: 48 }}>
+            Return the €500 when you're done. Keep your cut of whatever you made on top. Do it again with more next time.
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 60 }}>
-            <button className="btn-primary" onClick={() => window.location.href = "/apply/v2"}>Apply now — it's free</button>
-            <button className="btn-secondary" onClick={() => scrollTo("plays")}>See what others are making</button>
+            <button className="btn-primary" style={{ fontSize: 14, padding: "13px 28px" }} onClick={() => window.location.href = "/apply/v2"}>Apply now — it's free</button>
+            <button className="btn-secondary" onClick={() => scrollTo("plays")}>See what people are making →</button>
           </div>
 
           {/* Stats */}
           <div className="stats-grid">
             {[
-              { label: "Given out this month", value: 12430, prefix: "€" },
-              { label: "People running plays", value: 48 },
-              { label: "Making a profit", value: 71, suffix: "%" },
-              { label: "Deals completed", value: 214 },
+              { label: "Given out this month", sub: "real money, not vouchers", value: 12430, prefix: "€" },
+              { label: "People currently hustling", sub: "with our money right now", value: 48 },
+              { label: "Making a profit", sub: "making more than they started with", value: 71, suffix: "%" },
+              { label: "Quick flips completed", sub: "jobs done, money made", value: 214 },
             ].map((s, i) => (
               <div key={i} style={{ padding: "24px 24px 24px 0", borderRight: i < 3 ? "1px solid #1a1a1a" : "none", paddingLeft: i > 0 ? 24 : 0 }}>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(22px, 3vw, 28px)", fontWeight: 500, color: "#e8e6e0", marginBottom: 6 }}>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(22px, 3vw, 28px)", fontWeight: 500, color: "#e8e6e0", marginBottom: 4 }}>
                   <Counter end={s.value} prefix={s.prefix} suffix={s.suffix} />
                 </div>
-                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#555" }}>{s.label}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#555", marginBottom: 2 }}>{s.label}</div>
+                <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#333" }}>{s.sub}</div>
               </div>
             ))}
           </div>
@@ -228,28 +172,59 @@ export default function Home() {
       {/* HOW IT WORKS */}
       <section id="how" className="section-pad" style={{ borderTop: "1px solid #1a1a1a" }}>
         <div className="section-label">How it works</div>
-        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 48, color: "#e8e6e0" }}>Simple as that.</h2>
+        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 16, color: "#e8e6e0" }}>
+          Short, sharp, simple.
+        </h2>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", marginBottom: 48, maxWidth: 560, lineHeight: 1.8 }}>
+          This isn't long-term investment. It's not a job. It's a week-by-week hustle. You get money, you make it work, you return it and keep your profit. That's it.
+        </p>
         <div className="grid-3">
           {[
-            { num: "01", title: "Apply", body: "Tell us what you'd do with €500 and why you think you could make it worth more. No experience needed. No CV." },
-            { num: "02", title: "Get the money", body: "If we like your thinking, we send you real money. Start small. Prove yourself. Get more." },
-            { num: "03", title: "Make it grow", body: "Make it back plus profit. Return what we gave you, keep your cut. Do it again with more next time." },
+            { num: "01", title: "Apply", body: "Tell us what you'd do with €500 in 7 days. Buy and flip something? Offer a service locally? Build something fast and sell it? Show us your thinking. No CV. No experience needed." },
+            { num: "02", title: "Get the money", body: "We send €500 straight to your account. You've got 7 days. Go do your thing — whatever hustle you pitched us. We're here if you need to update us." },
+            { num: "03", title: "Return and keep your cut", body: "Send back the €500 when you're done. Keep your cut of whatever profit you made on top. Do it again with more money next time. Simple as that." },
           ].map((c, i) => (
             <div key={i} className="play-card" style={{ padding: "32px" }}>
               <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#333", letterSpacing: "0.1em", marginBottom: 20 }}>{c.num}</div>
-              <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 22, fontWeight: 400, color: "#e8e6e0", marginBottom: 12 }}>{c.title}</h3>
+              <h3 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 20, fontWeight: 500, color: "#e8e6e0", marginBottom: 12 }}>{c.title}</h3>
               <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#666", lineHeight: 1.8 }}>{c.body}</p>
             </div>
           ))}
+        </div>
+
+        {/* Example hustles */}
+        <div style={{ marginTop: 32, background: "#111", border: "1px solid #1e1e1e", padding: "28px 32px" }}>
+          <div className="section-label" style={{ marginBottom: 16 }}>Example hustles people are running</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+            {[
+              "Buy furniture cheap on DoneDeal, sell for more",
+              "Book cleaning jobs, hire someone cheaper to do them",
+              "Buy festival tickets at presale, resell at market price",
+              "Build an AI service on Fiverr with a €20 tool subscription",
+              "Buy a liquidation pallet, sell items individually on eBay",
+              "Run Facebook ads for a local business, charge per lead",
+              "Buy in bulk, split and sell at retail",
+              "Find a broken appliance, fix it, flip it",
+            ].map((item, i) => (
+              <div key={i} style={{ background: "#0e0e0e", border: "1px solid #1e1e1e", padding: "8px 16px", fontSize: 13, color: "#666", borderRadius: 2 }}>
+                → {item}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* LIVE PLAYS */}
       <section id="plays" className="section-pad" style={{ borderTop: "1px solid #1a1a1a" }}>
-        <div className="section-label">Live plays</div>
-        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(24px, 4vw, 38px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 24, color: "#e8e6e0" }}>Real people. Real money. Real results.</h2>
+        <div className="section-label">Real examples</div>
+        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(24px, 4vw, 38px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 12, color: "#e8e6e0" }}>
+          Real people. Real flips. Real money made.
+        </h2>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555", marginBottom: 32, maxWidth: 500, lineHeight: 1.7 }}>
+          Every one of these was done in under 10 days with money we gave them. This is what we're backing.
+        </p>
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 32 }}>
-          {[["all", "All"], ["arbitrage", "Arbitrage"], ["digital", "Digital"], ["service", "Service"]].map(([cat, label]) => (
+          {[["all", "All"], ["arbitrage", "Flipping"], ["digital", "Digital"], ["service", "Services"]].map(([cat, label]) => (
             <button key={cat} className={`filter-btn ${filterCat === cat ? "active" : ""}`} onClick={() => setFilterCat(cat)}>{label}</button>
           ))}
         </div>
@@ -266,9 +241,9 @@ export default function Home() {
                 <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 13, color: "#555", marginBottom: 20, lineHeight: 1.6 }}>{p.desc}</p>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16 }}>
                   {[
-                    ["PUT IN", `€${p.capital}`, "#e8e6e0"],
+                    ["STARTED WITH", `€${p.capital}`, "#e8e6e0"],
                     ["MADE BACK", `+€${p.returnAmt}`, "#10b981"],
-                    ["TIME", p.duration, "#888"],
+                    ["TIME TAKEN", p.duration, "#888"],
                     ["PROFIT", `${roi}%`, "#10b981"],
                   ].map(([label, val, color]) => (
                     <div key={label}>
@@ -299,9 +274,9 @@ export default function Home() {
         </p>
         <div style={{ border: "1px solid #1a1a1a", overflowX: "auto" }}>
           <div style={{ minWidth: 400 }}>
-            <div className="leaderboard-row" style={{ borderBottom: "1px solid #222", padding: "10px 16px", display: "grid", gridTemplateColumns: "24px 1fr 70px 70px 50px 60px", gap: 8, alignItems: "center" }}>
-              {[["#", false], ["Operator", false], ["Profit", false], ["Reliability", true], ["Plays", true], ["Score", false]].map(([h, hide], i) => (
-                <div key={i} className={hide ? "leaderboard-col-hide" : ""} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: "#444", letterSpacing: "0.1em", textTransform: "uppercase" }}>{h}</div>
+            <div style={{ borderBottom: "1px solid #222", padding: "10px 16px", display: "grid", gridTemplateColumns: "24px 1fr 70px 70px 50px 60px", gap: 8, alignItems: "center" }}>
+              {["#", "Operator", "Profit", "Reliability", "Plays", "Score"].map((h, i) => (
+                <div key={i} style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 10, color: "#444", letterSpacing: "0.12em", textTransform: "uppercase" }}>{h}</div>
               ))}
             </div>
             {leaderboard.map((op, i) => (
@@ -309,10 +284,8 @@ export default function Home() {
                 <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 11, color: "#444" }}>{i + 1}</span>
                 <span style={{ fontFamily: "'DM Sans', sans-serif", fontWeight: 500, fontSize: 13, color: i === 0 ? "#f59e0b" : "#e8e6e0" }}>@{op.handle}</span>
                 <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#10b981" }}>+{op.roi}%</span>
-                <div className="leaderboard-col-hide">
-                  <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#888" }}>{op.reliability}%</div>
-                </div>
-                <span className="leaderboard-col-hide" style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#666" }}>{op.plays}</span>
+                <div><div style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#888" }}>{op.reliability}%</div></div>
+                <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 12, color: "#666" }}>{op.plays}</span>
                 <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 14, fontWeight: 500, color: i === 0 ? "#f59e0b" : "#e8e6e0" }}>{op.score}</span>
               </div>
             ))}
@@ -321,9 +294,12 @@ export default function Home() {
       </section>
 
       {/* TIERS */}
-      <section id="tiers" className="section-pad" style={{ borderTop: "1px solid #1a1a1a" }}>
+      <section className="section-pad" style={{ borderTop: "1px solid #1a1a1a" }}>
         <div className="section-label">Levels</div>
-        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 40, color: "#e8e6e0" }}>Start with €500. Work your way up.</h2>
+        <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 300, letterSpacing: "-0.02em", marginBottom: 12, color: "#e8e6e0" }}>Start with €500. Work your way up.</h2>
+        <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555", marginBottom: 40, maxWidth: 480, lineHeight: 1.7 }}>
+          Every time you complete a play and return the money, you build your track record. Do it consistently and we back you with more.
+        </p>
         <div className="grid-5">
           {tiers.map((t) => (
             <div key={t.name} style={{ background: "#111", border: "1px solid #1e1e1e", padding: "20px 16px", position: "relative", overflow: "hidden" }}>
@@ -347,16 +323,19 @@ export default function Home() {
               If you're smart and hungry, we want to back you.
             </h2>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.9, marginBottom: 16 }}>
-              You don't need a degree. You don't need experience. You need to be the kind of person who sees an opportunity and actually does something about it.
+              You don't need a degree. You don't need experience. You need an idea for what to do with €500 in the next 7 days.
+            </p>
+            <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.9, marginBottom: 16 }}>
+              Buy furniture cheap and sell it for more. Book a cleaning job and manage the margin. Build an AI service and sell it on Fiverr. Whatever you're good at — we'll back it.
             </p>
             <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", lineHeight: 1.9 }}>
-              19 or 60 — doesn't matter. If you can make money move, we want to meet you.
+              19 or 60 — doesn't matter. If you can make money move in a week, we want to meet you.
             </p>
           </div>
           <div>
             <div style={{ marginBottom: 24 }}>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#10b981", letterSpacing: "0.1em", marginBottom: 12, textTransform: "uppercase" }}>We back</div>
-              {["People who spot deals others miss", "Anyone who can make €500 work harder", "Part-time hustlers and full-time operators", "People who figure things out"].map((item, i) => (
+              {["People who spot deals others walk past", "Anyone who can make €500 work harder in a week", "Part-time hustlers and full-time operators", "People who figure things out and get them done"].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 0", borderBottom: "1px solid #1a1a1a", fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#888" }}>
                   <span style={{ color: "#10b981", flexShrink: 0 }}>✓</span> {item}
                 </div>
@@ -364,7 +343,7 @@ export default function Home() {
             </div>
             <div>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#666", letterSpacing: "0.1em", marginBottom: 12, textTransform: "uppercase" }}>Not for</div>
-              {["People who want easy money", "Get-rich-quick merchants", "People who talk more than they do"].map((item, i) => (
+              {["People who want easy money without doing anything", "Get-rich-quick merchants", "Anyone who talks more than they do"].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 0", borderBottom: "1px solid #1a1a1a", fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#555" }}>
                   <span style={{ flexShrink: 0 }}>✕</span> {item}
                 </div>
@@ -374,21 +353,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* APPLICATION */}
+      {/* CTA */}
       <section className="section-pad" style={{ borderTop: "1px solid #1a1a1a", textAlign: "center" }}>
-  <div style={{ maxWidth: 560, margin: "0 auto" }}>
-    <div className="section-label" style={{ marginBottom: 16 }}>Ready?</div>
-    <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 16 }}>
-      Back yourself. We'll back you too.
-    </h2>
-    <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", marginBottom: 36, lineHeight: 1.8 }}>
-      Apply in minutes. No CV. No experience needed. Just show us how you think.
-    </p>
-    <button className="btn-primary" style={{ fontSize: 15, padding: "14px 36px" }} onClick={() => window.location.href = "/apply/v2"}>
-      Apply now — it's free
-    </button>
-  </div>
-</section>
+        <div style={{ maxWidth: 560, margin: "0 auto" }}>
+          <div className="section-label" style={{ marginBottom: 16 }}>Ready?</div>
+          <h2 style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 300, letterSpacing: "-0.02em", color: "#e8e6e0", marginBottom: 16 }}>
+            Back yourself. We'll back you too.
+          </h2>
+          <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 15, color: "#666", marginBottom: 36, lineHeight: 1.8 }}>
+            Apply in minutes. No CV. No experience needed. Just show us what you'd do with €500 in 7 days.
+          </p>
+          <button className="btn-primary" style={{ fontSize: 15, padding: "14px 36px" }} onClick={() => window.location.href = "/apply/v2"}>
+            Apply now — it's free
+          </button>
+        </div>
+      </section>
 
       {/* FOOTER */}
       <footer style={{ borderTop: "1px solid #1a1a1a", padding: "32px 24px", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
