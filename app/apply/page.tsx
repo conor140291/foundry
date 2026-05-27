@@ -43,75 +43,6 @@ const EMPTY_FORM: FormData = {
   q1: "", q2: "", q3: "", q4: "", q5: "", q6: "",
 };
 
-const css = `
-  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap');
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #090909; color: #e2e0db; font-family: 'DM Sans', sans-serif; }
-  .mono { font-family: 'DM Mono', monospace; }
-  input, textarea { background: #0e0e0e; border: 1px solid #222; color: #e2e0db; padding: 12px 16px; font-size: 14px; font-family: 'DM Sans', sans-serif; width: 100%; outline: none; transition: border-color 0.2s; border-radius: 2px; }
-  input:focus, textarea:focus { border-color: #555; }
-  input::placeholder, textarea::placeholder { color: #444; }
-  textarea { resize: vertical; }
-  button { cursor: pointer; font-family: 'DM Sans', sans-serif; border-radius: 2px; transition: all 0.15s; }
-  .btn-primary { background: #e2e0db; color: #090909; border: none; padding: 12px 28px; font-size: 13px; font-weight: 600; letter-spacing: 0.03em; }
-  .btn-primary:hover:not(:disabled) { background: #fff; }
-  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-  .btn-secondary { background: transparent; color: #e2e0db; border: 1px solid #2a2a2a; padding: 12px 28px; font-size: 13px; }
-  .btn-secondary:hover { border-color: #555; }
-  .btn-green { background: #10b981; color: #fff; border: none; padding: 12px 28px; font-size: 13px; font-weight: 600; }
-  .btn-green:hover:not(:disabled) { background: #0d9e6e; }
-  .btn-green:disabled { opacity: 0.4; cursor: not-allowed; }
-  .label { font-size: 11px; letter-spacing: 0.12em; color: #555; text-transform: uppercase; display: block; margin-bottom: 8px; }
-  .card { background: #111; border: 1px solid #1e1e1e; border-radius: 2px; }
-  .error-msg { font-size: 12px; color: #ef4444; margin-top: 6px; }
-  .upload-zone { border: 1px dashed #2a2a2a; padding: 28px; text-align: center; cursor: pointer; border-radius: 2px; transition: all 0.2s; }
-  .upload-zone:hover { border-color: #444; }
-  .upload-zone.success { border-color: #10b981; background: #0a1a12; }
-  .upload-zone.uploading { border-color: #f59e0b; background: #0e0e08; }
-`;
-
-function Field({ label, name, value, onChange, type = "text", placeholder = "", rows, hint }: {
-  label: string; name: string; value: string;
-  onChange: (name: string, value: string) => void;
-  type?: string; placeholder?: string; rows?: number; hint?: string;
-}) {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-      <label className="label" htmlFor={name}>{label}</label>
-      {rows ? (
-        <textarea id={name} rows={rows} placeholder={placeholder} value={value} onChange={e => onChange(name, e.target.value)} />
-      ) : (
-        <input id={name} type={type} placeholder={placeholder} value={value} onChange={e => onChange(name, e.target.value)} />
-      )}
-      {hint && <p style={{ fontSize: 12, color: "#444", marginTop: 6, lineHeight: 1.6 }}>{hint}</p>}
-    </div>
-  );
-}
-
-function UploadZone({ label, icon, uploaded, uploading, error, fileName, onFileSelect }: {
-  label: string; icon: string; uploaded: boolean; uploading: boolean;
-  error: string | null; fileName: string | null; onFileSelect: (file: File) => void;
-}) {
-  const ref = useRef<HTMLInputElement>(null);
-  const className = `upload-zone${uploaded ? " success" : uploading ? " uploading" : ""}`;
-  return (
-    <div>
-      <label className="label">{label}</label>
-      <div className={className} onClick={() => ref.current?.click()}>
-        {uploading ? (
-          <div><div style={{ fontSize: 20, marginBottom: 8 }}>⏳</div><div style={{ fontSize: 13, color: "#f59e0b" }}>Uploading securely...</div></div>
-        ) : uploaded ? (
-          <div><div style={{ fontSize: 20, marginBottom: 8 }}>✓</div><div style={{ fontSize: 13, color: "#10b981" }}>{fileName}</div><div style={{ fontSize: 11, color: "#555", marginTop: 4 }}>Click to replace</div></div>
-        ) : (
-          <div><div style={{ fontSize: 24, marginBottom: 10 }}>{icon}</div><div style={{ fontSize: 13, color: "#666" }}>{label}</div><div style={{ fontSize: 11, color: "#444", marginTop: 4 }}>JPG or PNG · max 10MB</div></div>
-        )}
-      </div>
-      {error && <p className="error-msg">{error}</p>}
-      <input ref={ref} type="file" accept="image/*" style={{ display: "none" }} onChange={e => { if (e.target.files?.[0]) onFileSelect(e.target.files[0]); }} />
-    </div>
-  );
-}
-
 export default function ApplyPage() {
   const supabase = createClient();
   const [step, setStep] = useState(0);
@@ -206,160 +137,162 @@ export default function ApplyPage() {
 
   if (submitted) {
     return (
-      <div style={{ minHeight: "100vh", background: "#090909", display: "flex", alignItems: "center", justifyContent: "center", padding: 40 }}>
+      <div style={{ minHeight: "100vh", background: "#090909", display: "flex", alignItems: "center", justifyContent: "center", padding: 40, fontFamily: "DM Sans, sans-serif", color: "#e2e0db" }}>
         <div style={{ maxWidth: 520, textAlign: "center" }}>
-          <div className="mono" style={{ fontSize: 48, color: "#10b981", marginBottom: 32 }}>✓</div>
-          <h1 style={{ fontSize: 36, fontWeight: 300, letterSpacing: "-0.02em", color: "#e2e0db", marginBottom: 16 }}>We've got it.</h1>
-          <p style={{ color: "#666", lineHeight: 1.9, fontSize: 14, marginBottom: 40 }}>
-            We read every application ourselves. If we think you've got what it takes, you'll hear from us within 48 hours.
-          </p>
-          <div className="card" style={{ padding: 24, textAlign: "left" }}>
-            <div className="label" style={{ marginBottom: 16 }}>What happens next</div>
-            {["ID verification reviewed", "Application scored by team", "Decision within 48h", "Approved operators receive first allocation"].map((item, i) => (
-              <div key={i} style={{ display: "flex", gap: 14, padding: "11px 0", borderBottom: i < 3 ? "1px solid #1a1a1a" : "none", fontSize: 13, color: "#888", alignItems: "center" }}>
-                <span className="mono" style={{ color: "#333", minWidth: 24, fontSize: 11 }}>{String(i + 1).padStart(2, "0")}</span>
-                {item}
-              </div>
-            ))}
-          </div>
+          <div style={{ fontSize: 48, color: "#10b981", marginBottom: 32 }}>✓</div>
+          <h1 style={{ fontSize: 36, fontWeight: 300, color: "#e2e0db", marginBottom: 16 }}>We've got it.</h1>
+          <p style={{ color: "#666", lineHeight: 1.9, fontSize: 14 }}>We read every application ourselves. You'll hear from us within 48 hours.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <>
-      <style>{css}</style>
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(9,9,9,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid #1a1a1a", padding: "0 40px", height: 52, display: "flex", alignItems: "center" }}>
-        <a href="/" style={{ textDecoration: "none" }}>
-          <span className="mono" style={{ fontSize: 15, fontWeight: 500, letterSpacing: "0.2em", color: "#e2e0db" }}>FOUNDRY</span>
-        </a>
+    <div style={{ minHeight: "100vh", background: "#090909", color: "#e2e0db", fontFamily: "DM Sans, sans-serif", paddingTop: 80, paddingBottom: 80 }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, background: "rgba(9,9,9,0.95)", borderBottom: "1px solid #1a1a1a", padding: "0 40px", height: 52, display: "flex", alignItems: "center" }}>
+        <a href="/" style={{ textDecoration: "none", fontFamily: "monospace", fontSize: 15, fontWeight: 500, letterSpacing: "0.2em", color: "#e2e0db" }}>FOUNDRY</a>
       </nav>
 
-      <div style={{ minHeight: "100vh", paddingTop: 100, paddingBottom: 80, display: "flex", justifyContent: "center" }}>
-        <div style={{ width: "100%", maxWidth: 640, padding: "0 24px" }}>
+      <div style={{ maxWidth: 640, margin: "0 auto", padding: "40px 24px" }}>
+        <div style={{ marginBottom: 40 }}>
+          <h1 style={{ fontSize: 36, fontWeight: 300, color: "#e2e0db", marginBottom: 8 }}>Think you can make money grow? Show us.</h1>
+          <p style={{ color: "#555", fontSize: 14, lineHeight: 1.7 }}>We read every application ourselves. No CV needed.</p>
+        </div>
 
-          <div style={{ marginBottom: 48 }}>
-            <div className="label" style={{ marginBottom: 12 }}>Application</div>
-            <h1 style={{ fontSize: 38, fontWeight: 300, letterSpacing: "-0.02em", color: "#e2e0db", marginBottom: 8 }}>
-              Think you can make money grow? Show us.
-            </h1>
-            <p style={{ color: "#555", fontSize: 14, lineHeight: 1.7 }}>
-              We read every single application ourselves. We're not looking for the smartest person. We're looking for someone who actually does things.
-            </p>
+        <div style={{ display: "flex", gap: 3, marginBottom: 40 }}>
+          {STEPS.map((_, i) => (
+            <div key={i} style={{ flex: 1, height: 2, background: i < step ? "#10b981" : i === step ? "#555" : "#1e1e1e", borderRadius: 1 }} />
+          ))}
+        </div>
+
+        <div style={{ marginBottom: 32 }}>
+          <div style={{ fontSize: 11, color: "#555", marginBottom: 8, fontFamily: "monospace" }}>{String(step + 1).padStart(2, "0")}/{String(STEPS.length).padStart(2, "0")} — {STEPS[step].subtitle}</div>
+          <h2 style={{ fontSize: 26, fontWeight: 300, color: "#e2e0db" }}>{STEPS[step].title}</h2>
+        </div>
+
+        {step === 0 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            <div>
+              <label style={{ fontSize: 11, color: "#555", display: "block", marginBottom: 8, letterSpacing: "0.1em", textTransform: "uppercase" }}>Email address</label>
+              <input type="email" placeholder="your@email.com" value={form.email} onChange={e => setField("email", e.target.value)} style={{ background: "#111", border: "1px solid #222", color: "#e2e0db", padding: "12px 16px", fontSize: 14, width: "100%", outline: "none", borderRadius: 2 }} />
+              <p style={{ fontSize: 12, color: "#444", marginTop: 6 }}>We'll send a magic link to verify your email.</p>
+            </div>
+            {!magicLinkSent ? (
+              <button disabled={!form.email || loading} onClick={sendMagicLink} style={{ background: "#e2e0db", color: "#090909", border: "none", padding: "12px 28px", fontSize: 13, fontWeight: 600, cursor: "pointer", borderRadius: 2, alignSelf: "flex-start", opacity: (!form.email || loading) ? 0.4 : 1 }}>
+                {loading ? "Sending..." : "Send magic link →"}
+              </button>
+            ) : (
+              <div style={{ background: "#111", border: "1px solid #1a3a1a", borderRadius: 2, padding: 20 }}>
+                <div style={{ color: "#10b981", fontSize: 13, marginBottom: 8 }}>✓ Magic link sent</div>
+                <div style={{ fontSize: 13, color: "#666" }}>Check your inbox at <strong style={{ color: "#888" }}>{form.email}</strong>. Click the link then come back here.</div>
+              </div>
+            )}
+            {error && <p style={{ fontSize: 12, color: "#ef4444" }}>{error}</p>}
           </div>
+        )}
 
-          {/* Progress bar */}
-          <div style={{ display: "flex", gap: 3, marginBottom: 40 }}>
-            {STEPS.map((_, i) => (
-              <div key={i} style={{ flex: 1, height: 2, background: i < step ? "#10b981" : i === step ? "#555" : "#1e1e1e", transition: "background 0.3s", borderRadius: 1 }} />
+        {step === 1 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+            {[
+              { key: "fullName", label: "Full legal name", type: "text", placeholder: "As it appears on your ID" },
+              { key: "email", label: "Email address", type: "email", placeholder: "your@email.com" },
+              { key: "phone", label: "Phone number", type: "tel", placeholder: "+353 87 123 4567" },
+              { key: "age", label: "Age", type: "number", placeholder: "24" },
+              { key: "location", label: "Location", type: "text", placeholder: "City, Country" },
+              { key: "socialHandle", label: "LinkedIn / X (optional)", type: "text", placeholder: "@handle or URL" },
+            ].map(f => (
+              <div key={f.key}>
+                <label style={{ fontSize: 11, color: "#555", display: "block", marginBottom: 8, letterSpacing: "0.1em", textTransform: "uppercase" }}>{f.label}</label>
+                <input type={f.type} placeholder={f.placeholder} value={form[f.key as keyof FormData]} onChange={e => setField(f.key, e.target.value)} style={{ background: "#111", border: "1px solid #222", color: "#e2e0db", padding: "12px 16px", fontSize: 14, width: "100%", outline: "none", borderRadius: 2 }} />
+              </div>
             ))}
           </div>
+        )}
 
-          {/* Step header */}
-          <div style={{ marginBottom: 36 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-              <span className="mono" style={{ fontSize: 11, color: "#555" }}>{String(step + 1).padStart(2, "0")}/{String(STEPS.length).padStart(2, "0")}</span>
-              <span style={{ fontSize: 11, color: "#333" }}>—</span>
-              <span style={{ fontSize: 12, color: "#666" }}>{STEPS[step].subtitle}</span>
+        {step === 2 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            <div style={{ background: "#111", border: "1px solid #1a3a1a", borderRadius: 2, padding: 20, fontSize: 13, color: "#888", lineHeight: 1.9 }}>
+              We verify every operator before allocating capital. Your documents are stored securely and never shared.
             </div>
-            <h2 style={{ fontSize: 28, fontWeight: 300, letterSpacing: "-0.02em", color: "#e2e0db" }}>{STEPS[step].title}</h2>
-          </div>
-
-          {/* STEP 0 — Account */}
-          {step === 0 && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              <Field label="Email address" name="email" value={form.email} onChange={setField} type="email" placeholder="your@email.com" hint="We'll send a magic link to verify your email. No password needed." />
-              {!magicLinkSent ? (
-                <button className="btn-primary" style={{ alignSelf: "flex-start" }} disabled={!form.email || loading} onClick={sendMagicLink}>
-                  {loading ? "Sending..." : "Send magic link →"}
-                </button>
-              ) : (
-                <div className="card" style={{ padding: 20, borderColor: "#1a3a1a" }}>
-                  <div style={{ color: "#10b981", fontSize: 13, marginBottom: 8 }}>✓ Magic link sent</div>
-                  <div style={{ fontSize: 13, color: "#666", lineHeight: 1.7 }}>
-                    Check your inbox at <strong style={{ color: "#888" }}>{form.email}</strong>. Click the link to verify, then return here to continue.
+            {[
+              { label: "Photo ID — passport or driving licence", icon: "🪪", type: "id" as const },
+              { label: "Selfie holding your ID", icon: "🤳", type: "selfie" as const },
+            ].map(u => (
+              <div key={u.type}>
+                <label style={{ fontSize: 11, color: "#555", display: "block", marginBottom: 8, letterSpacing: "0.1em", textTransform: "uppercase" }}>{u.label}</label>
+                <div
+                  onClick={() => document.getElementById(`upload-${u.type}`)?.click()}
+                  style={{ border: `1px dashed ${u.type === "id" ? (uploads.idPhotoPath ? "#10b981" : "#333") : (uploads.selfiePath ? "#10b981" : "#333")}`, padding: 28, textAlign: "center", cursor: "pointer", borderRadius: 2, background: (u.type === "id" ? uploads.idPhotoPath : uploads.selfiePath) ? "#0a1a12" : "#0e0e0e" }}
+                >
+                  <div style={{ fontSize: 24, marginBottom: 8 }}>{(u.type === "id" ? uploads.idPhotoPath : uploads.selfiePath) ? "✓" : u.icon}</div>
+                  <div style={{ fontSize: 13, color: (u.type === "id" ? uploads.idPhotoPath : uploads.selfiePath) ? "#10b981" : "#666" }}>
+                    {(u.type === "id" ? uploads.idPhotoName : uploads.selfiePhotoName) || "Click to upload"}
                   </div>
-                  <button style={{ background: "none", border: "none", color: "#555", fontSize: 12, marginTop: 12, padding: 0, cursor: "pointer" }} onClick={() => { setMagicLinkSent(false); setForm(p => ({ ...p, email: "" })); }}>
-                    Use a different email
-                  </button>
                 </div>
-              )}
-              {error && <p className="error-msg">{error}</p>}
-            </div>
-          )}
-
-          {/* STEP 1 — Basics */}
-          {step === 1 && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              <Field label="Full legal name" name="fullName" value={form.fullName} onChange={setField} placeholder="As it appears on your ID" />
-              <Field label="Email address" name="email" value={form.email} onChange={setField} type="email" placeholder="your@email.com" />
-              <Field label="Phone number" name="phone" value={form.phone} onChange={setField} type="tel" placeholder="+353 87 123 4567" />
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                <Field label="Age" name="age" value={form.age} onChange={setField} type="number" placeholder="24" />
-                <Field label="Location" name="location" value={form.location} onChange={setField} placeholder="City, Country" />
+                <input id={`upload-${u.type}`} type="file" accept="image/*" style={{ display: "none" }} onChange={e => { if (e.target.files?.[0]) uploadFile(e.target.files[0], "operator-ids", u.type); }} />
               </div>
-              <Field label="LinkedIn / X (optional)" name="socialHandle" value={form.socialHandle} onChange={setField} placeholder="@handle or URL" hint="Optional but helpful — gives us context on your background." />
-            </div>
-          )}
-
-          {/* STEP 2 — Identity */}
-          {step === 2 && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              <div className="card" style={{ padding: 20, borderColor: "#1a3a1a" }}>
-                <div style={{ fontSize: 13, color: "#888", lineHeight: 1.9 }}>
-                  We verify every operator before allocating capital. Your documents are stored in an encrypted private bucket and are never shared publicly or with third parties.
-                </div>
-              </div>
-              <UploadZone label="Photo ID — passport or driving licence" icon="🪪" uploaded={!!uploads.idPhotoPath} uploading={uploads.idUploading} error={uploads.idError} fileName={uploads.idPhotoName} onFileSelect={file => uploadFile(file, "operator-ids", "id")} />
-              <UploadZone label="Selfie holding your ID — face and ID must both be clearly visible" icon="🤳" uploaded={!!uploads.selfiePath} uploading={uploads.selfieUploading} error={uploads.selfieError} fileName={uploads.selfiePhotoName} onFileSelect={file => uploadFile(file, "operator-ids", "selfie")} />
-            </div>
-          )}
-
-          {/* STEP 3 — Thinking */}
-          {step === 3 && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              <Field label="You receive €500 today. How do you turn it into more within 7 days?" name="q1" value={form.q1} onChange={setField} rows={6} placeholder="Be specific. Name the platforms, the products, the buyers. Walk us through your actual plan..." />
-              <Field label="What inefficiency in the world do most people ignore?" name="q2" value={form.q2} onChange={setField} rows={5} placeholder="Something you've noticed that others haven't — in markets, in local areas, in online platforms..." />
-            </div>
-          )}
-
-          {/* STEP 4 — Operating */}
-          {step === 4 && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              <Field label="Tell us about a time you created value from almost nothing." name="q3" value={form.q3} onChange={setField} rows={6} placeholder="A deal, a side hustle, a fix, a trade. Anything real. Be specific about the numbers." />
-              <Field label="What kinds of opportunities are you naturally best at spotting?" name="q4" value={form.q4} onChange={setField} rows={5} placeholder="Arbitrage? Digital services? Local markets? Specific platforms? Be honest about where your instincts are strongest." />
-            </div>
-          )}
-
-          {/* STEP 5 — Edge */}
-          {step === 5 && (
-            <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-              <Field label="If we allocated you €10,000 tomorrow, how would you deploy it?" name="q5" value={form.q5} onChange={setField} rows={6} placeholder="Be concrete. What's the exact play? What would you buy, where, from whom, and how would you exit?" />
-              <Field label="What's your unfair advantage?" name="q6" value={form.q6} onChange={setField} rows={5} placeholder="Access to certain markets? An existing platform following? Specialist knowledge? A network? Be direct." hint="This is the question most people answer too vaguely. The best answers name something specific." />
-              <div className="card" style={{ padding: 16, borderColor: "#222" }}>
-                <div style={{ fontSize: 12, color: "#555", lineHeight: 1.8 }}>
-                  By submitting, you confirm all information is accurate and you agree to Foundry's operator terms including the principal return obligation.
-                </div>
-              </div>
-            </div>
-          )}
-
-          {error && <p className="error-msg" style={{ marginTop: 24 }}>{error}</p>}
-
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 40 }}>
-            {step > 0 ? (
-              <button className="btn-secondary" onClick={() => setStep(s => s - 1)}>← Back</button>
-            ) : <div />}
-            {step < STEPS.length - 1 ? (
-              <button className="btn-primary" disabled={!canAdvance()} onClick={() => setStep(s => s + 1)}>Continue →</button>
-            ) : (
-              <button className="btn-green" disabled={!canAdvance() || loading} onClick={submit}>{loading ? "Submitting..." : "Submit application"}</button>
-            )}
+            ))}
           </div>
+        )}
 
+        {step === 3 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {[
+              { key: "q1", label: "You receive €500 today. How do you turn it into more within 7 days?", placeholder: "Be specific. Name the platforms, the products, the buyers..." },
+              { key: "q2", label: "What inefficiency in the world do most people ignore?", placeholder: "Something you've noticed that others haven't..." },
+            ].map(f => (
+              <div key={f.key}>
+                <label style={{ fontSize: 11, color: "#555", display: "block", marginBottom: 8, letterSpacing: "0.1em", textTransform: "uppercase" }}>{f.label}</label>
+                <textarea rows={6} placeholder={f.placeholder} value={form[f.key as keyof FormData]} onChange={e => setField(f.key, e.target.value)} style={{ background: "#111", border: "1px solid #222", color: "#e2e0db", padding: "12px 16px", fontSize: 14, width: "100%", outline: "none", borderRadius: 2, resize: "vertical" }} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {step === 4 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {[
+              { key: "q3", label: "Tell us about a time you created value from almost nothing.", placeholder: "A deal, a side hustle, a fix. Anything real." },
+              { key: "q4", label: "What kinds of opportunities are you naturally best at spotting?", placeholder: "Arbitrage? Digital? Services? Be specific." },
+            ].map(f => (
+              <div key={f.key}>
+                <label style={{ fontSize: 11, color: "#555", display: "block", marginBottom: 8, letterSpacing: "0.1em", textTransform: "uppercase" }}>{f.label}</label>
+                <textarea rows={6} placeholder={f.placeholder} value={form[f.key as keyof FormData]} onChange={e => setField(f.key, e.target.value)} style={{ background: "#111", border: "1px solid #222", color: "#e2e0db", padding: "12px 16px", fontSize: 14, width: "100%", outline: "none", borderRadius: 2, resize: "vertical" }} />
+              </div>
+            ))}
+          </div>
+        )}
+
+        {step === 5 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+            {[
+              { key: "q5", label: "If we allocated you €10,000 tomorrow, how would you deploy it?", placeholder: "Be concrete. What's the exact play?" },
+              { key: "q6", label: "What's your unfair advantage?", placeholder: "What do you have that others don't?" },
+            ].map(f => (
+              <div key={f.key}>
+                <label style={{ fontSize: 11, color: "#555", display: "block", marginBottom: 8, letterSpacing: "0.1em", textTransform: "uppercase" }}>{f.label}</label>
+                <textarea rows={6} placeholder={f.placeholder} value={form[f.key as keyof FormData]} onChange={e => setField(f.key, e.target.value)} style={{ background: "#111", border: "1px solid #222", color: "#e2e0db", padding: "12px 16px", fontSize: 14, width: "100%", outline: "none", borderRadius: 2, resize: "vertical" }} />
+              </div>
+            ))}
+            <div style={{ background: "#111", border: "1px solid #222", borderRadius: 2, padding: 16, fontSize: 12, color: "#555", lineHeight: 1.8 }}>
+              By submitting you confirm all information is accurate and you agree to Foundry's operator terms including the principal return obligation.
+            </div>
+          </div>
+        )}
+
+        {error && <p style={{ fontSize: 12, color: "#ef4444", marginTop: 24 }}>{error}</p>}
+
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 40 }}>
+          {step > 0 ? (
+            <button onClick={() => setStep(s => s - 1)} style={{ background: "transparent", color: "#e2e0db", border: "1px solid #2a2a2a", padding: "12px 28px", fontSize: 13, cursor: "pointer", borderRadius: 2 }}>← Back</button>
+          ) : <div />}
+          {step < STEPS.length - 1 ? (
+            <button disabled={!canAdvance()} onClick={() => setStep(s => s + 1)} style={{ background: "#e2e0db", color: "#090909", border: "none", padding: "12px 28px", fontSize: 13, fontWeight: 600, cursor: "pointer", borderRadius: 2, opacity: !canAdvance() ? 0.4 : 1 }}>Continue →</button>
+          ) : (
+            <button disabled={!canAdvance() || loading} onClick={submit} style={{ background: "#10b981", color: "#fff", border: "none", padding: "12px 28px", fontSize: 13, fontWeight: 600, cursor: "pointer", borderRadius: 2, opacity: (!canAdvance() || loading) ? 0.4 : 1 }}>{loading ? "Submitting..." : "Submit application"}</button>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
