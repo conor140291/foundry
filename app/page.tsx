@@ -144,6 +144,31 @@ export default function Home() {
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(14px, 1.8vw, 17px)", color: "#666", lineHeight: 1.9, maxWidth: 540, marginBottom: 48 }}>
   Return the €500 when you're done. Keep your cut of whatever you made on top. Do it again with more next time. <span style={{ color: "#888" }}>This fits around a full time job, college, or anything else — a small allocation might just be a Saturday morning.</span>
 </p>
+{/* Example transaction */}
+<div style={{ background: "#111", border: "1px solid #1e1e1e", borderRadius: 2, padding: "24px 28px", marginBottom: 48, maxWidth: 560 }}>
+  <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#10b981", letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 16 }}>Here's how it works in practice</div>
+  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+    {[
+      { icon: "💸", label: "We give you", value: "€500", color: "#e8e6e0", sub: "lands in your account" },
+      { icon: "🏌️", label: "You buy", value: "Golf clubs on Adverts.ie", color: "#e8e6e0", sub: "€300 — you spotted them underpriced" },
+      { icon: "📱", label: "You sell them", value: "€450", color: "#10b981", sub: "listed on DoneDeal, sold in 2 days" },
+      { icon: "↩️", label: "You return", value: "€500", color: "#888", sub: "the original amount back to us" },
+      { icon: "🤑", label: "You keep", value: "€75", color: "#10b981", sub: "your 50% cut of the €150 profit" },
+    ].map((row, i) => (
+      <div key={i} style={{ display: "flex", alignItems: "center", gap: 16, paddingBottom: 12, borderBottom: i < 4 ? "1px solid #1a1a1a" : "none" }}>
+        <span style={{ fontSize: 20, width: 32, flexShrink: 0 }}>{row.icon}</span>
+        <div style={{ flex: 1 }}>
+          <span style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#555" }}>{row.label} </span>
+          <span style={{ fontFamily: "'DM Mono', monospace", fontSize: 14, fontWeight: 500, color: row.color }}>{row.value}</span>
+          <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#444", marginTop: 2 }}>{row.sub}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+  <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid #1a1a1a", fontFamily: "'DM Sans', sans-serif", fontSize: 12, color: "#555", lineHeight: 1.7 }}>
+    You don't need to tell us what you're buying in advance. Just go find the opportunity and make it happen. Tell us how it went when you're done.
+  </div>
+</div>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 60 }}>
             <button className="btn-primary" style={{ fontSize: 14, padding: "13px 28px" }} onClick={() => window.location.href = "/apply/v2"}>Apply now — it's free</button>
             <button className="btn-secondary" onClick={() => scrollTo("plays")}>See what people are making →</button>
