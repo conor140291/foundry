@@ -142,8 +142,8 @@ export default function Home() {
             We give you <strong style={{ color: "#e8e6e0" }}>€500 a week.</strong> Buy something cheap and sell it for more. Do a job. Build something quick and sell it. Whatever your hustle is — go make it grow. Do well and we give you more.
           </p>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(14px, 1.8vw, 17px)", color: "#666", lineHeight: 1.9, maxWidth: 540, marginBottom: 48 }}>
-            Return the €500 when you're done. Keep your cut of whatever you made on top. Do it again with more next time.
-          </p>
+  Return the €500 when you're done. Keep your cut of whatever you made on top. Do it again with more next time. <span style={{ color: "#888" }}>This fits around a full time job, college, or anything else — a small allocation might just be a Saturday morning.</span>
+</p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 60 }}>
             <button className="btn-primary" style={{ fontSize: 14, padding: "13px 28px" }} onClick={() => window.location.href = "/apply/v2"}>Apply now — it's free</button>
             <button className="btn-secondary" onClick={() => scrollTo("plays")}>See what people are making →</button>
