@@ -335,7 +335,7 @@ export default function Home() {
           <div>
             <div style={{ marginBottom: 24 }}>
               <div style={{ fontFamily: "'DM Sans', sans-serif", fontSize: 11, color: "#10b981", letterSpacing: "0.1em", marginBottom: 12, textTransform: "uppercase" }}>We back</div>
-              {["People who spot deals others walk past", "Anyone who can make €500 work harder in a week", "Part-time hustlers and full-time operators", "People who figure things out and get them done"].map((item, i) => (
+              {["People who spot deals others walk past", "Anyone who can make €500 work harder in a week", "Part-time or full-time — a €500 flip can be a Saturday morning job", "People who figure things out and get them done"].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: "10px 0", borderBottom: "1px solid #1a1a1a", fontFamily: "'DM Sans', sans-serif", fontSize: 14, color: "#888" }}>
                   <span style={{ color: "#10b981", flexShrink: 0 }}>✓</span> {item}
                 </div>
