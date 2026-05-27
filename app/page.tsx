@@ -165,8 +165,8 @@ export default function Home() {
 
         {/* Desktop nav */}
         <div className="desktop-nav" style={{ display: "flex", gap: 28, alignItems: "center" }}>
-          {[["how", "How it works"], ["plays", "Live plays"], ["leaderboard", "Leaderboard"], ["apply", "Apply"]].map(([id, label]) => (
-            <span key={id} style={{ color: "#666", fontSize: 13, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }} onClick={() => scrollTo(id)}>{label}</span>
+          {[["how", "How it works"], ["plays", "Live plays"], ["leaderboard", "Leaderboard"]].map(([id, label]) => (
+  <span key={id} style={{ color: "#666", fontSize: 13, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }} onClick={() => scrollTo(id)}>{label}</span>
           ))}
           <button className="btn-primary" style={{ padding: "8px 20px", fontSize: 12 }} onClick={() => window.location.href = "/apply/v2"}>Apply — it's free</button>
         </div>
@@ -180,8 +180,8 @@ export default function Home() {
       {/* Mobile menu */}
       {menuOpen && (
         <div className="mobile-menu">
-          {[["how", "How it works"], ["plays", "Live plays"], ["leaderboard", "Leaderboard"], ["apply", "Apply"]].map(([id, label]) => (
-            <span key={id} className="nav-link" onClick={() => scrollTo(id)}>{label}</span>
+          {[["how", "How it works"], ["plays", "Live plays"], ["leaderboard", "Leaderboard"]].map(([id, label]) => (
+  <span key={id} className="nav-link" onClick={() => scrollTo(id)}>{label}</span>
           ))}
           <button className="btn-primary" style={{ width: "100%", marginTop: 16, padding: "12px" }} onClick={() => window.location.href = "/apply/v2"}>Apply now — it's free</button>
         </div>
