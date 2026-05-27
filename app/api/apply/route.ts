@@ -7,64 +7,78 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // Use form email as the primary email — not the auth session email
+  const applicantEmail = body.email;
+  if (!applicantEmail) {
+    return NextResponse.json({ error: "Email is required" }, { status: 400 });
+  }
 
+  // Try to find existing operator by email (not user_id, since no auth required now)
   let operator: any;
   const { data: existing } = await adminSupabase
     .from("operators")
     .select("id, full_name, email")
-    .eq("user_id", user.id)
+    .eq("email", applicantEmail)
     .single();
 
   if (existing) {
     operator = existing;
+    // Update phone if provided
+    if (body.phone) {
+      await adminSupabase.from("operators").update({ phone: body.phone }).eq("id", operator.id);
+    }
   } else {
-const { data: created, error: createError } = await adminSupabase
-  .from("operators")
-  .insert({
-    user_id:      user.id,
-    handle:       (body.fullName || "operator")
-                    .toLowerCase()
-                    .replace(/[^a-z0-9]/g, "_")
-                    .replace(/_+/g, "_")
-                    .slice(0, 20),
-    full_name:    body.fullName || "Unknown",
-    email:        body.email || user.email,
-    phone:        body.phone || null,
-    age:          body.age || null,
-    location:     body.location || null,
-    social_handle: body.socialHandle || null,
-  })
-  .select()
-  .single();
+    const { data: created, error: createError } = await adminSupabase
+      .from("operators")
+      .insert({
+        user_id:       null,
+        handle:        (body.fullName || "operator")
+                         .toLowerCase()
+                         .replace(/[^a-z0-9]/g, "_")
+                         .replace(/_+/g, "_")
+                         .slice(0, 20),
+        full_name:     body.fullName || "Unknown",
+        email:         applicantEmail,
+        phone:         body.phone || null,
+        age:           body.age || null,
+        location:      body.location || null,
+        social_handle: body.socialHandle || null,
+      })
+      .select()
+      .single();
 
-if (createError) {
-  console.error("Operator create error:", createError);
-  return NextResponse.json({ error: createError.message }, { status: 500 });
-}
-operator = created;
+    if (createError) {
+      console.error("Operator create error:", createError);
+      return NextResponse.json({ error: createError.message }, { status: 500 });
+    }
+    operator = created;
   }
 
+  // Insert application with email stored
   const { error: insertError } = await adminSupabase
     .from("applications")
     .insert({
       operator_id:    operator.id,
+      email:          applicantEmail,
+      phone:          body.phone || null,
       q_100_plan:     body.q1,
       q_inefficiency: body.q2,
       q_value_story:  body.q3,
       q_best_at:      body.q4,
       q_10k_plan:     body.q5,
       q_edge:         body.q6,
-      id_photo_path:  body.idPhotoPath,
-      selfie_path:    body.selfiePath,
+      id_photo_path:  body.idPhotoPath || null,
+      selfie_path:    body.selfiePath || null,
     });
 
-  if (insertError) return NextResponse.json({ error: insertError.message }, { status: 500 });
+  if (insertError) {
+    return NextResponse.json({ error: insertError.message }, { status: 500 });
+  }
 
+  // Send emails using the form email
   Promise.allSettled([
-    sendApplicationReceived(user.email!, operator.full_name),
-    sendNewApplicationAlert(process.env.ADMIN_EMAIL!, operator.full_name),
+    sendApplicationReceived(applicantEmail, body.fullName || "there"),
+    sendNewApplicationAlert(process.env.ADMIN_EMAIL!, body.fullName || "Someone"),
   ]);
 
   return NextResponse.json({ success: true });
