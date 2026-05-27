@@ -152,7 +152,7 @@ export default function Home() {
       { icon: "💸", label: "We give you", value: "€500", color: "#e8e6e0", sub: "lands in your account" },
       { icon: "🏌️", label: "You buy", value: "Golf clubs on Adverts.ie", color: "#e8e6e0", sub: "€300 — you spotted them underpriced" },
       { icon: "📱", label: "You sell them", value: "€450", color: "#10b981", sub: "listed on DoneDeal, sold in 2 days" },
-      { icon: "↩️", label: "You return", value: "€500", color: "#888", sub: "the original amount back to us" },
+      { icon: "↩️", label: "You hold", value: "€500", color: "#888", sub: "the original amount in a Revolut Pocket with us" },
       { icon: "🤑", label: "You keep", value: "€75", color: "#10b981", sub: "your 50% cut of the €150 profit" },
     ].map((row, i) => (
       <div key={i} style={{ display: "flex", alignItems: "center", gap: 16, paddingBottom: 12, borderBottom: i < 4 ? "1px solid #1a1a1a" : "none" }}>
