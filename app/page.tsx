@@ -168,7 +168,7 @@ export default function Home() {
           {[["how", "How it works"], ["plays", "Live plays"], ["leaderboard", "Leaderboard"], ["apply", "Apply"]].map(([id, label]) => (
             <span key={id} style={{ color: "#666", fontSize: 13, cursor: "pointer", fontFamily: "'DM Sans', sans-serif" }} onClick={() => scrollTo(id)}>{label}</span>
           ))}
-          <button className="btn-primary" style={{ padding: "8px 20px", fontSize: 12 }} onClick={() => scrollTo("apply")}>Apply — it's free</button>
+          <button className="btn-primary" style={{ padding: "8px 20px", fontSize: 12 }} onClick={() => window.location.href = "/apply/v2"}>Apply — it's free</button>
         </div>
 
         {/* Mobile hamburger */}
@@ -183,7 +183,7 @@ export default function Home() {
           {[["how", "How it works"], ["plays", "Live plays"], ["leaderboard", "Leaderboard"], ["apply", "Apply"]].map(([id, label]) => (
             <span key={id} className="nav-link" onClick={() => scrollTo(id)}>{label}</span>
           ))}
-          <button className="btn-primary" style={{ width: "100%", marginTop: 16, padding: "12px" }} onClick={() => scrollTo("apply")}>Apply now — it's free</button>
+          <button className="btn-primary" style={{ width: "100%", marginTop: 16, padding: "12px" }} onClick={() => window.location.href = "/apply/v2"}>Apply now — it's free</button>
         </div>
       )}
 
@@ -202,7 +202,7 @@ export default function Home() {
             Got a good idea and the drive to act on it? We'll back you with real money. You keep a cut of what you make.
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 60 }}>
-            <button className="btn-primary" onClick={() => scrollTo("apply")}>Apply now — it's free</button>
+            <button className="btn-primary" onClick={() => window.location.href = "/apply/v2"}>Apply now — it's free</button>
             <button className="btn-secondary" onClick={() => scrollTo("plays")}>See what others are making</button>
           </div>
 
