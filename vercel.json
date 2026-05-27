@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/apply",
+      "destination": "/apply/v2",
+      "permanent": false
+    }
+  ]
+}
