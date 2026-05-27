@@ -139,7 +139,7 @@ export default function Home() {
             to <span style={{ color: "#10b981" }}>make money</span><span className="cursor" style={{ color: "#10b981" }}>_</span>
           </h1>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(15px, 2vw, 19px)", color: "#888", lineHeight: 1.9, maxWidth: 580, marginBottom: 16 }}>
-            We give you <strong style={{ color: "#e8e6e0" }}>€500 and a week.</strong> Buy something cheap and sell it for more. Do a job. Build something quick and sell it. Whatever your hustle is — go make it grow.
+            We give you <strong style={{ color: "#e8e6e0" }}>€500 a week.</strong> Buy something cheap and sell it for more. Do a job. Build something quick and sell it. Whatever your hustle is — go make it grow. Do well and we give you more.
           </p>
           <p style={{ fontFamily: "'DM Sans', sans-serif", fontSize: "clamp(14px, 1.8vw, 17px)", color: "#666", lineHeight: 1.9, maxWidth: 540, marginBottom: 48 }}>
             Return the €500 when you're done. Keep your cut of whatever you made on top. Do it again with more next time.
