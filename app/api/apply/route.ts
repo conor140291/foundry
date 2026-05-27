@@ -20,22 +20,30 @@ export async function POST(req: NextRequest) {
   if (existing) {
     operator = existing;
   } else {
-    const { data: created, error: createError } = await adminSupabase
-      .from("operators")
-      .insert({
-        user_id:      user.id,
-        handle:       body.fullName.toLowerCase().replace(/\s+/g, "_").slice(0, 20),
-        full_name:    body.fullName,
-        email:        user.email,
-        age:          body.age,
-        location:     body.location,
-        social_handle: body.socialHandle || null,
-      })
-      .select()
-      .single();
+const { data: created, error: createError } = await adminSupabase
+  .from("operators")
+  .insert({
+    user_id:      user.id,
+    handle:       (body.fullName || "operator")
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]/g, "_")
+                    .replace(/_+/g, "_")
+                    .slice(0, 20),
+    full_name:    body.fullName || "Unknown",
+    email:        body.email || user.email,
+    phone:        body.phone || null,
+    age:          body.age || null,
+    location:     body.location || null,
+    social_handle: body.socialHandle || null,
+  })
+  .select()
+  .single();
 
-    if (createError) return NextResponse.json({ error: createError.message }, { status: 500 });
-    operator = created;
+if (createError) {
+  console.error("Operator create error:", createError);
+  return NextResponse.json({ error: createError.message }, { status: 500 });
+}
+operator = created;
   }
 
   const { error: insertError } = await adminSupabase
